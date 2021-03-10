@@ -119,9 +119,6 @@ def key_event(e):
 
 
 def main():
-    if not os.geteuid() == 0:
-        print("Script needs to run as root.")
-        exit()
     app = QtWidgets.QApplication(sys.argv)
     keys = read_config()
     global win
