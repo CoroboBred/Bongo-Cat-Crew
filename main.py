@@ -1,90 +1,22 @@
-from PyQt5 import QtWidgets, QtCore, QtGui  # import PyQt5 widgets
+from PyQt5 import QtWidgets, QtGui , QtCore# import PyQt5 widgets
 import sys
 import os
 import keyboard
-
-
-class Cat(QtWidgets.QWidget):
-    keys = []
-    pressed_keys = []
-    textures = {}
-    label = []
-    layout = QtWidgets.QHBoxLayout()
-
-    def __init__(self, keys):
-        super(Cat, self).__init__()
-        self.keys = keys
-        self.pressed_keys = [False for i in range(len(self.keys))]
-        self.load_textures()
-        self.label = QtWidgets.QLabel("left")
-        pix_map = self.textures["base"].copy()
-        painter = QtGui.QPainter(pix_map)
-        painter.drawPixmap(0, 0, self.textures["l_00"])
-        painter.drawPixmap(0, 0, self.textures["r_00"])
-        painter.end()
-        self.label.setPixmap(pix_map)
-        self.layout.addWidget(self.label)
-        self.setLayout(self.layout)
-
-    def load_textures(self):
-        path = os.path.join(os.getcwd(), "images")
-        base = QtGui.QPixmap(os.path.join(path, "cat_base.png"))
-        self.textures["base"] = base
-        l_00 = QtGui.QPixmap(os.path.join(path, "cat_l_00.png"))
-        self.textures["l_00"] = l_00
-
-        l_01 = QtGui.QPixmap(os.path.join(path, "cat_l_01.png"))
-        self.textures["l_01"] = l_01
-
-        l_10 = QtGui.QPixmap(os.path.join(path, "cat_l_10.png"))
-        self.textures["l_10"] = l_10
-
-        l_11 = QtGui.QPixmap(os.path.join(path, "cat_l_11.png"))
-        self.textures["l_11"] = l_11
-
-        r_00 = QtGui.QPixmap(os.path.join(path, "cat_r_00.png"))
-        self.textures["r_00"] = r_00
-
-        r_01 = QtGui.QPixmap(os.path.join(path, "cat_r_01.png"))
-        self.textures["r_01"] = r_01
-
-        r_10 = QtGui.QPixmap(os.path.join(path, "cat_r_10.png"))
-        self.textures["r_10"] = r_10
-
-        r_11 = QtGui.QPixmap(os.path.join(path, "cat_r_11.png"))
-        self.textures["r_11"] = r_11
-
-    def update_key(self, key, is_pressed):
-        index = -1
-        for i in range(len(self.keys)):
-            if self.keys[i] == key:
-                index = i
-                break
-
-        if index == -1:
-            return
-
-        self.pressed_keys[index] = is_pressed
-
-        l_text = self.textures["l_" + str(int(self.pressed_keys[0])) + str(int(self.pressed_keys[1]))]
-        r_text = self.textures["r_" + str(int(self.pressed_keys[2])) + str(int(self.pressed_keys[3]))]
-
-        pix_map = self.textures["base"].copy()
-        painter = QtGui.QPainter(pix_map)
-        painter.drawPixmap(0, 0, l_text)
-        painter.drawPixmap(0, 0, r_text)
-        painter.end()
-        self.label.setPixmap(pix_map)
+import cat4k
+import cat1k
 
 
 class MainWindow(QtWidgets.QMainWindow):
-    cat = {}
+    cats = []
     layout = QtWidgets.QHBoxLayout()
 
-    def __init__(self, cat):
+    def __init__(self, cats):
         super(MainWindow, self).__init__()
-        self.cat = cat
-        self.layout.addWidget(self.cat)
+        self.cats = cats
+        self.layout.setSpacing(0)
+        self.layout.setContentsMargins(0, 0, 0, 0)
+        for cat in self.cats:
+            self.layout.addWidget(cat, 0, QtCore.Qt.AlignBottom)
         widget = QtWidgets.QWidget()
         widget.setLayout(self.layout)
         self.setCentralWidget(widget)
@@ -93,46 +25,94 @@ class MainWindow(QtWidgets.QMainWindow):
         self.show()
 
     def key_press(self, key, pressed):
-        self.cat.update_key(key, pressed)
+        for cat in self.cats:
+            cat.update_key(key, pressed)
         self.layout.activate()
 
 
 win = {}
 
 
-def on_press(key):
-    win.key_press(key, True)
+def key_event(e):
+    key = e.name
+    if key == "space":
+        key = " "
+    win.key_press(key, e.event_type == "down")
 
 
-def on_release(key):
-    win.key_press(key, False)
+def load_textures():
+    path = os.path.join(os.getcwd(), "images")
+    return {
+        "4k": load_4k_textures(path),
+        "1k": load_1k_textures(path),
+                }
+
+
+def load_1k_textures(path):
+    path = os.path.join(path, "1k_cat")
+
+    return {
+        "0":  QtGui.QPixmap(os.path.join(path, "1k_cat_0.png")),
+        "1":  QtGui.QPixmap(os.path.join(path, "1k_cat_1.png")),
+    }
+
+
+def load_4k_textures(path):
+    path = os.path.join(path, "4k_cat")
+    return {
+        "base": QtGui.QPixmap(os.path.join(path, "4k_cat_base.png")),
+        "l_00": QtGui.QPixmap(os.path.join(path, "4k_cat_l_00.png")),
+        "l_01": QtGui.QPixmap(os.path.join(path, "4k_cat_l_01.png")),
+        "l_10": QtGui.QPixmap(os.path.join(path, "4k_cat_l_10.png")),
+        "l_11": QtGui.QPixmap(os.path.join(path, "4k_cat_l_11.png")),
+        "r_00": QtGui.QPixmap(os.path.join(path, "4k_cat_r_00.png")),
+        "r_01": QtGui.QPixmap(os.path.join(path, "4k_cat_r_01.png")),
+        "r_10": QtGui.QPixmap(os.path.join(path, "4k_cat_r_10.png")),
+        "r_11": QtGui.QPixmap(os.path.join(path, "4k_cat_r_11.png")),
+    }
 
 
 def read_config():
-    keys = []
+    cats_keys = {}
+
     file = open("config.txt", "r")
-    for line in file:
-        split = line.split("=")
-        if len(split) != 2:
-            print("incorrectly formatted line: ", line)
-            continue
-        keys.append(split[1][0])
+    file.readline()  # read intro line and empty line
+    file.readline()
+
+    file.readline()  # read 1-key title.
+    key = read_key(file.readline())
+    cats_keys["1k"] = key
+
+    file.readline()  # read 4-key title.
+    file.readline()
+    keys = []
+    for i in range(4):
+        keys.append(read_key(file.readline()))
+    cats_keys["4k"] = keys
+
     file.close()
 
-    return keys
+    return cats_keys
 
 
-def key_event(e):
-    win.key_press(e.name, e.event_type == "down")
+def read_key(line):
+    split = line.split("=")
+    if len(split) != 2:
+        raise str("incorrectly formatted line: ", line)
+    return split[1][0]
 
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
-    keys = read_config()
+    cats_keys = read_config()
     global win
 
-    cat = Cat(keys)
-    win = MainWindow(cat)
+    textures = load_textures()
+    cats = {
+        cat1k.Cat1k(cats_keys["1k"], textures["1k"]),
+        cat4k.Cat4k(cats_keys["4k"], textures["4k"]),
+    }
+    win = MainWindow(cats)
 
     keyboard.hook(key_event)
     sys.exit(app.exec_())
