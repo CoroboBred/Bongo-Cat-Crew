@@ -5,7 +5,7 @@ class Cat1k(QtWidgets.QWidget):
     key = {}
     textures = {}
     label = []
-    layout = QtWidgets.QHBoxLayout()
+    layout = {}
 
     def __init__(self, key, textures):
         super(Cat1k, self).__init__()
@@ -13,6 +13,8 @@ class Cat1k(QtWidgets.QWidget):
         self.textures = textures
         self.label = QtWidgets.QLabel("1k_cat")
         self.label.setPixmap(self.textures["0"])
+
+        self.layout = QtWidgets.QHBoxLayout()
         self.layout.addWidget(self.label)
         self.layout.setSpacing(0)
         self.layout.setContentsMargins(0, 0, 0, 0)

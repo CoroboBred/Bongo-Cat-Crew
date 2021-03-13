@@ -6,14 +6,15 @@ class Cat4k(QtWidgets.QWidget):
     pressed_keys = []
     textures = {}
     label = []
-    layout = QtWidgets.QHBoxLayout()
+    layout = {}
 
     def __init__(self, keys, textures):
         super(Cat4k, self).__init__()
         self.keys = keys
         self.textures = textures
         self.pressed_keys = [False for i in range(len(self.keys))]
-        self.label = QtWidgets.QLabel("left")
+        self.label = QtWidgets.QLabel("4k_cat")
+        self.layout = QtWidgets.QHBoxLayout()
         pix_map = self.textures["base"].copy()
         painter = QtGui.QPainter(pix_map)
         painter.drawPixmap(0, 0, self.textures["l_00"])

@@ -1,6 +1,7 @@
 from PyQt5 import  QtGui  # import PyQt5 widgets
 import os
 
+
 def load_textures():
     path = os.path.join(os.getcwd(), "images")
     return {
