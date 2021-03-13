@@ -2,11 +2,6 @@ from PyQt5 import QtWidgets, QtGui  # import PyQt5 widgets
 
 
 class Cat1k(QtWidgets.QWidget):
-    key = {}
-    textures = {}
-    label = []
-    layout = {}
-
     def __init__(self, key, textures):
         super(Cat1k, self).__init__()
         self.key = key
