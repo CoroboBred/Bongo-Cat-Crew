@@ -9,6 +9,7 @@ Download the repo and run the program using `python3`. The list of python depend
 * psutil
 * pyqt5
 * pywin32
+
 All of these packages can be installed using `pip3`.
 
 
