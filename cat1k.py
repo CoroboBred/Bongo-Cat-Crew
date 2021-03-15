@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets, QtGui  # import PyQt5 widgets
+from PyQt5 import QtWidgets, QtCore  # import PyQt5 widgets
 
 
 class Cat1k(QtWidgets.QWidget):
@@ -7,7 +7,11 @@ class Cat1k(QtWidgets.QWidget):
         self.key = key
         self.textures = textures
         self.label = QtWidgets.QLabel("1k_cat")
-        self.label.setPixmap(self.textures["0"])
+        text = self.textures["0"]
+        self.w = text.width()
+        self.label.setPixmap(text)
+        self.label.setAlignment(QtCore.Qt.AlignBottom | QtCore.Qt.AlignRight)
+        self.label.setSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
 
         self.layout = QtWidgets.QHBoxLayout()
         self.layout.addWidget(self.label)
@@ -20,4 +24,7 @@ class Cat1k(QtWidgets.QWidget):
             return
 
         self.label.setPixmap(self.textures[str(int(is_pressed))])
+
+    def width(self):
+        return self.w
 

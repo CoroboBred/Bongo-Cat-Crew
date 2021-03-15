@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets, QtGui  # import PyQt5 widgets
+from PyQt5 import QtWidgets, QtGui, QtCore  # import PyQt5 widgets
 
 
 class Cat2k(QtWidgets.QWidget):
@@ -10,11 +10,14 @@ class Cat2k(QtWidgets.QWidget):
         self.label = QtWidgets.QLabel("2k_cat")
         self.layout = QtWidgets.QHBoxLayout()
         pix_map = self.textures["base"].copy()
+        self.w = pix_map.width()
         painter = QtGui.QPainter(pix_map)
         painter.drawPixmap(0, 0, self.textures["l_0"])
         painter.drawPixmap(0, 0, self.textures["r_0"])
         painter.end()
         self.label.setPixmap(pix_map)
+        self.label.setAlignment(QtCore.Qt.AlignBottom | QtCore.Qt.AlignRight)
+        self.label.setSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.layout.addWidget(self.label)
         self.layout.setSpacing(0)
         self.layout.setContentsMargins(0, 0, 0, 0)
@@ -42,3 +45,5 @@ class Cat2k(QtWidgets.QWidget):
         painter.end()
         self.label.setPixmap(pix_map)
 
+    def width(self):
+        return self.w

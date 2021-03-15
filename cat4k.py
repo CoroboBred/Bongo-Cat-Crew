@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets, QtGui  # import PyQt5 widgets
+from PyQt5 import QtWidgets, QtGui, QtCore  # import PyQt5 widgets
 
 
 class Cat4k(QtWidgets.QWidget):
@@ -8,8 +8,11 @@ class Cat4k(QtWidgets.QWidget):
         self.textures = textures
         self.pressed_keys = [False for i in range(len(self.keys))]
         self.label = QtWidgets.QLabel("4k_cat")
+        self.label.setAlignment(QtCore.Qt.AlignBottom | QtCore.Qt.AlignRight)
+        self.label.setSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.layout = QtWidgets.QHBoxLayout()
         pix_map = self.textures["base"].copy()
+        self.w = pix_map.width()
         painter = QtGui.QPainter(pix_map)
         painter.drawPixmap(0, 0, self.textures["l_00"])
         painter.drawPixmap(0, 0, self.textures["r_00"])
@@ -42,3 +45,5 @@ class Cat4k(QtWidgets.QWidget):
         painter.end()
         self.label.setPixmap(pix_map)
 
+    def width(self):
+        return self.w

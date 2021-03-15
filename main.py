@@ -27,6 +27,7 @@ class MainWindow(QtWidgets.QMainWindow):
             layout = QtWidgets.QHBoxLayout()
             layout.setSpacing(0)
             layout.setContentsMargins(0, 0, 0, 0)
+            layout.setAlignment(QtCore.Qt.AlignBottom | QtCore.Qt.AlignRight)
             container = QtWidgets.QWidget()
             container.setLayout(layout)
             self.stack.addWidget(container)
@@ -46,12 +47,15 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.show()
 
-    def set_cat_layout(self, config):
-        layout = self.cat_layouts[config]
-        if config not in self.cat_configs:
-            return
-        for cat in self.cat_configs[config]:
-            layout.addWidget(cat, 0, QtCore.Qt.AlignBottom | QtCore.Qt.AlignLeft)
+    def set_width(self):
+        max_width = 0
+        for key in self.cat_configs:
+            width = 0
+            for cat in self.cat_configs[key]:
+                width = width + cat.width()
+            if width > max_width:
+                max_width = width
+        self.setFixedWidth(max_width)
 
     def key_press(self, key, pressed):
         if "0" <= key <= "9":
@@ -60,11 +64,23 @@ class MainWindow(QtWidgets.QMainWindow):
         for cat in self.all_cats:
             self.all_cats[cat].update_key(key, pressed)
 
-    def update_cats(self, key, pressed):
+    def update_cats(self, key, pressed=False):
         if pressed or key not in self.layout_indices:
             return
         self.stack.setCurrentIndex(self.layout_indices[key])
+
+        if key not in self.cat_configs:
+            return
         self.set_cat_layout(key)
+
+    def set_cat_layout(self, key):
+        layout = self.cat_layouts[key]
+        buffer = QtWidgets.QWidget()
+        buffer.setSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
+        layout.addWidget(buffer)
+        for cat in self.cat_configs[key]:
+            layout.addWidget(cat, 0, QtCore.Qt.AlignBottom | QtCore.Qt.AlignRight)
+        layout.setAlignment(QtCore.Qt.AlignBottom | QtCore.Qt.AlignRight)
 
     # TODO: Update 'set_layout func to read and render osu! title instead.
 #   def set_layout(self):
@@ -118,6 +134,7 @@ def main():
         "2": [cats["2k"]],
         "4": [cats["2k"], cats["2k_rev"]],
         "5": [cats["2k"], cats["1k"], cats["2k_rev"]],
+        "7": [cats["4k"], cats["1k"], cats["4k_rev"]],
         "9": [cats["4k"], cats["1k"], cats["4k_rev"]],
     }
 
