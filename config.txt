@@ -1,6 +1,10 @@
 Bongo Cat Crew Config File
 
-Cat Layout
+Mouse Layout
+key1=z
+key2=x
+
+Mania Layout
 key1=a
 key2=s
 key3=d

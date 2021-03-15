@@ -81,7 +81,11 @@ def read_config():
     file.readline()  # read intro line and empty line
     file.readline()  # read blank line.
 
-    file.readline()  # read 'Cat Layout' title.
+    file.readline()  # read 'Mouse Layout' title.
+    cats_keys["mk"] = [read_key(file.readline()), read_key(file.readline())]
+
+    file.readline()  # read blank line.
+    file.readline()  # read 'Mania Layout' title.
     keys = []
     for i in range(9):
         keys.append(read_key(file.readline()))
@@ -91,7 +95,6 @@ def read_config():
     cats_keys["1k"] = keys[4]
     cats_keys["2k_rev"] = keys[5:7]
     cats_keys["4k_rev"] = keys[5:10]
-    print(cats_keys)
     file.close()
 
     return cats_keys
@@ -100,5 +103,5 @@ def read_config():
 def read_key(line):
     split = line.split("=")
     if len(split) != 2:
-        raise str("incorrectly formatted line: ", line)
+        raise ValueError("incorrectly formatted line in config file: '" + line + "'")
     return split[1][0]
