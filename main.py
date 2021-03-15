@@ -108,13 +108,14 @@ def main():
     cats = {
         "1k":   cat1k.Cat1k(cats_keys["1k"], textures["1k"]),
         "2k": cat2k.Cat2k(cats_keys["2k"], textures["2k"]),
-        "4k":    cat4k.Cat4k(cats_keys["4k_rev"], textures["4k_rev"]),
-        "4k_rev": cat4k.Cat4k(cats_keys["4k"], textures["4k"]),
+        "2k_rev": cat2k.Cat2k(cats_keys["2k_rev"], textures["2k_rev"]),
+        "4k":    cat4k.Cat4k(cats_keys["4k"], textures["4k"]),
+        "4k_rev": cat4k.Cat4k(cats_keys["4k_rev"], textures["4k_rev"]),
     }
     cat_configs = {
         "2": [cats["2k"]],
-        "4": [cats["4k"]],
-        "5": [cats["4k"], cats["1k"]],
+        "4": [cats["2k"], cats["2k_rev"]],
+        "5": [cats["2k"], cats["1k"], cats["2k_rev"]],
         "9": [cats["4k"], cats["1k"], cats["4k_rev"]],
     }
 

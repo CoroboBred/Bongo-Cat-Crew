@@ -5,10 +5,11 @@ import os
 def load_textures():
     path = os.path.join(os.getcwd(), "images")
     return {
-        "4k": load_4k_textures(path),
         "1k": load_1k_textures(path),
-        "4k_rev": load_rev_4k_textures(path),
         "2k": load_2k_textures(path),
+        "2k_rev": load_rev_2k_textures(path),
+        "4k": load_4k_textures(path),
+        "4k_rev": load_rev_4k_textures(path),
     }
 
 
@@ -32,6 +33,17 @@ def load_2k_textures(path):
     }
 
 
+def load_rev_2k_textures(path):
+    path = os.path.join(path, "2k_cat")
+    return {
+        "base": QtGui.QPixmap(os.path.join(path, "2k_cat_base.png")).transformed(QtGui.QTransform().scale(-1, 1)),
+        "r_0": QtGui.QPixmap(os.path.join(path, "2k_cat_l_0.png")).transformed(QtGui.QTransform().scale(-1, 1)),
+        "r_1": QtGui.QPixmap(os.path.join(path, "2k_cat_l_1.png")).transformed(QtGui.QTransform().scale(-1, 1)),
+        "l_0": QtGui.QPixmap(os.path.join(path, "2k_cat_r_0.png")).transformed(QtGui.QTransform().scale(-1, 1)),
+        "l_1": QtGui.QPixmap(os.path.join(path, "2k_cat_r_1.png")).transformed(QtGui.QTransform().scale(-1, 1)),
+    }
+
+
 def load_4k_textures(path):
     path = os.path.join(path, "4k_cat")
     return {
@@ -50,15 +62,15 @@ def load_4k_textures(path):
 def load_rev_4k_textures(path):
     path = os.path.join(path, "4k_cat")
     return {
-        "base": QtGui.QPixmap(os.path.join(path, "4k_cat_rev_base.png")),
-        "l_00": QtGui.QPixmap(os.path.join(path, "4k_cat_rev_l_00.png")),
-        "l_01": QtGui.QPixmap(os.path.join(path, "4k_cat_rev_l_01.png")),
-        "l_10": QtGui.QPixmap(os.path.join(path, "4k_cat_rev_l_10.png")),
-        "l_11": QtGui.QPixmap(os.path.join(path, "4k_cat_rev_l_11.png")),
-        "r_00": QtGui.QPixmap(os.path.join(path, "4k_cat_rev_r_00.png")),
-        "r_01": QtGui.QPixmap(os.path.join(path, "4k_cat_rev_r_01.png")),
-        "r_10": QtGui.QPixmap(os.path.join(path, "4k_cat_rev_r_10.png")),
-        "r_11": QtGui.QPixmap(os.path.join(path, "4k_cat_rev_r_11.png")),
+        "base": QtGui.QPixmap(os.path.join(path, "4k_cat_base.png")).transformed(QtGui.QTransform().scale(-1, 1)),
+        "r_00": QtGui.QPixmap(os.path.join(path, "4k_cat_l_00.png")).transformed(QtGui.QTransform().scale(-1, 1)),
+        "r_10": QtGui.QPixmap(os.path.join(path, "4k_cat_l_01.png")).transformed(QtGui.QTransform().scale(-1, 1)),
+        "r_01": QtGui.QPixmap(os.path.join(path, "4k_cat_l_10.png")).transformed(QtGui.QTransform().scale(-1, 1)),
+        "r_11": QtGui.QPixmap(os.path.join(path, "4k_cat_l_11.png")).transformed(QtGui.QTransform().scale(-1, 1)),
+        "l_00": QtGui.QPixmap(os.path.join(path, "4k_cat_r_00.png")).transformed(QtGui.QTransform().scale(-1, 1)),
+        "l_10": QtGui.QPixmap(os.path.join(path, "4k_cat_r_01.png")).transformed(QtGui.QTransform().scale(-1, 1)),
+        "l_01": QtGui.QPixmap(os.path.join(path, "4k_cat_r_10.png")).transformed(QtGui.QTransform().scale(-1, 1)),
+        "l_11": QtGui.QPixmap(os.path.join(path, "4k_cat_r_11.png")).transformed(QtGui.QTransform().scale(-1, 1)),
     }
 
 
