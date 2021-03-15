@@ -7,6 +7,7 @@ import psutil
 from PyQt5 import QtWidgets, QtCore  # import PyQt5 widgets
 
 import cat1k
+import cat2k
 import cat4k
 import read
 
@@ -105,11 +106,13 @@ def main():
     cats_keys = read.read_config()
     textures = read.load_textures()
     cats = {
-        "4k":    cat4k.Cat4k(cats_keys["4k_rev"], textures["4k_rev"]),
         "1k":   cat1k.Cat1k(cats_keys["1k"], textures["1k"]),
+        "2k": cat2k.Cat2k(cats_keys["2k"], textures["2k"]),
+        "4k":    cat4k.Cat4k(cats_keys["4k_rev"], textures["4k_rev"]),
         "4k_rev": cat4k.Cat4k(cats_keys["4k"], textures["4k"]),
     }
     cat_configs = {
+        "2": [cats["2k"]],
         "4": [cats["4k"]],
         "5": [cats["4k"], cats["1k"]],
         "9": [cats["4k"], cats["1k"], cats["4k_rev"]],

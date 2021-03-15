@@ -3,6 +3,10 @@ Bongo Cat Crew Config File
 1-Key Cat
 key1= 
 
+2-Key Cat
+key1=d
+key2=f
+
 4-Key Cat
 key1=j
 key2=k
