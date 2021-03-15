@@ -69,31 +69,16 @@ def read_config():
     file.readline()  # read intro line and empty line
     file.readline()  # read blank line.
 
-    file.readline()  # read 1-key title.
-    key = read_key(file.readline())
-    cats_keys["1k"] = key
+    file.readline()  # read 'Cat Layout' title.
+    keys = []
+    for i in range(9):
+        keys.append(read_key(file.readline()))
 
-    file.readline()  # read blank line.
-    file.readline()  # read 2-key title.
-    keys_2k = []
-    for i in range(2):
-        keys_2k.append(read_key(file.readline()))
-    cats_keys["2k"] = keys_2k
-
-    file.readline()  # read blank line.
-    file.readline()  # read 4-key title.
-    keys_4k = []
-    for i in range(4):
-        keys_4k.append(read_key(file.readline()))
-    cats_keys["4k"] = keys_4k
-
-    file.readline()  # read blank line.
-    file.readline()  # read 4-key reverse title.
-    keys_rev = []
-    for i in range(4):
-        keys_rev.append(read_key(file.readline()))
-    cats_keys["4k_rev"] = keys_rev
-
+    cats_keys["4k"] = keys[0:4]
+    cats_keys["2k"] = keys[2:4]
+    cats_keys["1k"] = keys[4]
+    cats_keys["2k_rev"] = keys[5:7]
+    cats_keys["4k_rev"] = keys[5:10]
     print(cats_keys)
     file.close()
 

@@ -1,20 +1,12 @@
 Bongo Cat Crew Config File
 
-1-Key Cat
-key1= 
-
-2-Key Cat
-key1=d
-key2=f
-
-4-Key Cat
-key1=j
-key2=k
-key3=l
-key4=;
-
-4-Key Cat Reverse
+Cat Layout
 key1=a
 key2=s
 key3=d
 key4=f
+key5= 
+key6=j
+key7=k
+key8=l
+key9=;
