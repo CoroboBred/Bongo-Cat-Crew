@@ -10,6 +10,16 @@ def load_textures():
         "2k_rev": load_rev_2k_textures(path),
         "4k": load_4k_textures(path),
         "4k_rev": load_rev_4k_textures(path),
+        "mouse": load_mouse_textures(path),
+    }
+
+
+def load_mouse_textures(path):
+    path = os.path.join(path, "mouse_cat")
+
+    return {
+        "base":  QtGui.QPixmap(os.path.join(path, "mouse_cat_base.png")),
+        "mouse":  QtGui.QPixmap(os.path.join(path, "mouse_cat_mouse.png")),
     }
 
 

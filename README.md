@@ -9,10 +9,11 @@ Download the repo and run the program using `python3`. The list of python depend
 * psutil
 * pyqt5
 * pywin32
+* pyautogui
 
 All of these packages can be installed using `pip3`.
 
 
 # Configuration
 To change the keypress that that map to each cats key, update the `config.txt` file to your desired set up. 
-Currently 4 possible configurations are supported. 4 key, 5 key, and 9 key mode. Each mode can be enabled by pressing the associated number key.
+Currently there are 4 possible configurations are supported. 4 key, 5 key, and 9 key mode. Each mode can be enabled by pressing the associated number key.

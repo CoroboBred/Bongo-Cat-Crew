@@ -1,7 +1,9 @@
 from PyQt5 import QtWidgets, QtCore  # import PyQt5 widgets
 
+import cat
 
-class Cat1k(QtWidgets.QWidget):
+
+class Cat1k(cat.Cat):
     def __init__(self, key, textures):
         super(Cat1k, self).__init__()
         self.key = key

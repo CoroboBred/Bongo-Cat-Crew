@@ -9,6 +9,7 @@ from PyQt5 import QtWidgets, QtCore  # import PyQt5 widgets
 import cat1k
 import cat2k
 import cat4k
+import catMouse
 import read
 
 
@@ -41,9 +42,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setCentralWidget(self.stack)
         self.setStyleSheet("background-color: blue;")
         self.setWindowTitle("Bongo cat")
-
-        # self.timer.timeout.connect(self.set_layout)
-        # self.timer.start(2000)
 
         self.show()
 
@@ -127,10 +125,11 @@ def main():
         "2k_rev": cat2k.Cat2k(cats_keys["2k_rev"], textures["2k_rev"]),
         "4k":    cat4k.Cat4k(cats_keys["4k"], textures["4k"]),
         "4k_rev": cat4k.Cat4k(cats_keys["4k_rev"], textures["4k_rev"]),
-        "mk": cat2k.Cat2k(cats_keys["mk"], textures["2k"])
+        "mk": cat2k.Cat2k(cats_keys["mk"], textures["2k"]),
+        "mc": catMouse.CatMouse(textures["mouse"]),
     }
     cat_configs = {
-        "0": [cats["mk"]],
+        "0": [cats["mk"], cats["mc"]],
         "2": [cats["2k"]],
         "4": [cats["2k"], cats["2k_rev"]],
         "5": [cats["2k"], cats["1k"], cats["2k_rev"]],
