@@ -36,9 +36,9 @@ class MainWindow(QtWidgets.QMainWindow):
             self.cat_layouts[layout_key] = layout
             index = index + 1
 
-        config = list(self.cat_configs.keys())[-1]  # get the last cat configuration.
+        config = list(self.cat_configs.keys())[0]  # get the last cat configuration.
         self.set_cat_layout(config)
-        self.stack.setCurrentIndex(self.layout_indices["9"])
+        self.stack.setCurrentIndex(self.layout_indices["0"])
         self.setCentralWidget(self.stack)
         self.setStyleSheet("background-color: blue;")
         self.setWindowTitle("Bongo cat")

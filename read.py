@@ -20,6 +20,7 @@ def load_mouse_textures(path):
     return {
         "base":  QtGui.QPixmap(os.path.join(path, "mouse_cat_base.png")),
         "mouse":  QtGui.QPixmap(os.path.join(path, "mouse_cat_mouse.png")),
+        "pad": QtGui.QPixmap(os.path.join(path, "mouse_cat_pad.png")),
     }
 
 
