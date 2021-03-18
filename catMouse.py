@@ -75,7 +75,7 @@ class CatMouse(cat.Cat):
     def draw_arm_cubic(self, painter, x_mouse, y_mouse, x_paw_start, y_paw_start, x_paw_end, y_paw_end):
         path = QtGui.QPainterPath()
         path.moveTo(x_paw_start, y_paw_start)
-        path.cubicTo(x_mouse, y_mouse, x_mouse, y_mouse, x_paw_end, y_paw_end)
+        path.cubicTo(x_mouse - 20, y_mouse + 20, x_mouse + 20, y_mouse - 20, x_paw_end, y_paw_end)
 
         brush = QtGui.QBrush()
         brush.setColor(QtCore.Qt.white)
