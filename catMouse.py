@@ -32,27 +32,33 @@ class CatMouse(cat.Cat):
         pix_map = self.textures["base"].copy()
         painter = QtGui.QPainter(pix_map)
         mouse_pad = self.textures["pad"].copy()
-        mouse_pad = mouse_pad.scaledToHeight(int(self.h / 1.5))
-        x_offset = 250
+        mouse_pad = mouse_pad.scaledToHeight(int(self.h / 1.6))
+        x_offset = 300
         y_offset = 10
         painter.drawPixmap(self.w - mouse_pad.width() - x_offset, self.h - mouse_pad.height(), mouse_pad)
 
         x_cursor, y_cursor = pyautogui.position()
+        x_cursor, y_cursor = max(0, x_cursor), max(0, y_cursor)
         mouse_map = self.textures["mouse"].copy()
-        mouse_map = mouse_map.scaledToHeight(int(mouse_pad.height() / 4))
+        mouse_map = mouse_map.scaledToHeight(int(mouse_pad.height() / 3.5))
         x_mouse = int(
             (x_cursor / self.res_x * (mouse_pad.width() - mouse_map.width())) - x_offset + self.w - mouse_pad.width())
         y_mouse = int((y_cursor / self.res_y * (
                 mouse_pad.height() - mouse_map.height() - mouse_map.height())) - y_offset + self.h - mouse_pad.height() + mouse_map.height())
 
+
         painter.drawPixmap(x_mouse, y_mouse, mouse_map)
 
-        x, y = 450, 220
-        self.draw_arm(painter, x_mouse + 60, y_mouse + 60, x, y, x + 50, y - 30)
+        x, y = 430, 220
+        # self.draw_arm(painter, x_mouse + 60, y_mouse + 60, x, y, x + 50, y - 30)
 
+        fx = x_mouse / ((mouse_pad.width() - mouse_map.width()) - x_offset + self.w - mouse_pad.width())
+        fy = y_mouse / ((mouse_pad.height() - mouse_map.height() - mouse_map.height()) - y_offset + self.h - mouse_pad.height() + mouse_map.height())
+        print("fx: ", fx, "fy: ", fy)
+        self.draw_arm_cubic(painter, x_mouse + (150 * fx), y_mouse + (100 * fy), x, y, x + 70, y - 30)
 
-#        x, y = 650, 150
-#        self.draw_arm(painter, x_mouse + 60, y_mouse + 60, x, y, x - 50, y + 30)
+        x, y = 600, 170
+        self.draw_arm_cubic(painter, x_mouse + (100 * fx), y_mouse + (100 * fy), x, y, x + 70, y - 30)
         painter.end()
 
         self.label.setPixmap(pix_map)
@@ -65,6 +71,23 @@ class CatMouse(cat.Cat):
         return QtGui.QPolygonF([QtCore.QPointF(x_arm, y_arm), QtCore.QPointF(x_mouse, y_mouse),
                                 QtCore.QPointF(x_mouse + arm_width, y_mouse - arm_width),
                                 QtCore.QPointF(x_arm + arm_width, y_arm - arm_width)])
+
+    def draw_arm_cubic(self, painter, x_mouse, y_mouse, x_paw_start, y_paw_start, x_paw_end, y_paw_end):
+        path = QtGui.QPainterPath()
+        path.moveTo(x_paw_start, y_paw_start)
+        path.cubicTo(x_mouse, y_mouse, x_mouse, y_mouse, x_paw_end, y_paw_end)
+
+        brush = QtGui.QBrush()
+        brush.setColor(QtCore.Qt.white)
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        painter.setBrush(brush)
+        pen = QtGui.QPen()
+        pen.setColor(QtCore.Qt.black)
+        pen.setWidth(5)
+        painter.setPen(pen)
+        path.setFillRule(QtCore.Qt.WindingFill)
+        painter.drawPath(path)
+
 
     def draw_arm(self, painter, x, y, x_paw_start, y_paw_start, x_paw_end, y_paw_end):
         # initializing pss and pss2 (kuvster's magic)
