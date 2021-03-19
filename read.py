@@ -5,7 +5,8 @@ import os
 def load_textures():
     path = os.path.join(os.getcwd(), "images")
     return {
-        "1k": load_1k_textures(path),
+        "1k": load_1k_textures(path, "", 252),
+        "1k_tall": load_1k_textures(path, "_tall", 324),
         "2k": load_2k_textures(path),
         "2k_rev": load_rev_2k_textures(path),
         "4k": load_4k_textures(path),
@@ -24,12 +25,12 @@ def load_mouse_textures(path):
     }
 
 
-def load_1k_textures(path):
+def load_1k_textures(path, mod, scale):
     path = os.path.join(path, "1k_cat")
 
     return {
-        "0":  QtGui.QPixmap(os.path.join(path, "1k_cat_0.png")).scaledToWidth(252),
-        "1":  QtGui.QPixmap(os.path.join(path, "1k_cat_1.png")).scaledToWidth(252),
+        "0":  QtGui.QPixmap(os.path.join(path, "1k_cat" + mod + "_0.png")).scaledToWidth(scale),
+        "1":  QtGui.QPixmap(os.path.join(path, "1k_cat" + mod + "_1.png")).scaledToWidth(scale),
     }
 
 
