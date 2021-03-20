@@ -22,6 +22,7 @@ class CatTalk(cat.Cat):
         self.textures = textures
         self.is_talking = False
         self.index = 0
+        self.trail = 0
         self.stale = 0
         self.label = QtWidgets.QLabel("talking_cat")
         self.label.setAlignment(QtCore.Qt.AlignBottom | QtCore.Qt.AlignRight)
@@ -52,9 +53,16 @@ class CatTalk(cat.Cat):
 
     def update_talking(self, talking):
         if not talking:
-            self.label.setPixmap(self.idle_texture)
+            if self.is_talking and self.trail <= 1:
+                self.trail += 1
+            else:
+                self.trail = 0
+                self.is_talking = False
+                self.label.setPixmap(self.idle_texture)
             return
 
+        self.trail = 0
+        self.is_talking = True
         index = self.index
         if self.stale == 3:
             self.stale = 0
