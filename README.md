@@ -10,6 +10,8 @@ Download the repo and run the program using `python3`. The list of python depend
 * pyqt5
 * pywin32
 * pyautogui
+* pyaudio
+* array
 
 All of these packages can be installed using `pip3`.
 

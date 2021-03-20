@@ -10,6 +10,7 @@ import cat1k
 import cat2k
 import cat4k
 import catMouse
+import catTalk
 import read
 
 
@@ -128,17 +129,18 @@ def main():
         "4k_rev": cat4k.Cat4k(cats_keys["4k_rev"], textures["4k_rev"]),
         "mk": cat2k.Cat2k(cats_keys["mk"], textures["2k"]),
         "mc": catMouse.CatMouse(textures["mouse"]),
+        "tc": catTalk.CatTalk(textures["talk"]),
     }
     cat_configs = {
-        "0": [cats["mk"], cats["mc"]],
-        "1": [cats["1k"]],
-        "2": [cats["2k"]],
-        "4": [cats["2k"], cats["2k_rev"]],
-        "5": [cats["2k"], cats["1k"], cats["2k_rev"]],
-        "6": [cats["4k"], cats["4k_rev"]],
-        "7": [cats["4k"], cats["1k_tall"], cats["4k_rev"]],
-        "8": [cats["4k"], cats["4k_rev"]],
-        "9": [cats["4k"], cats["1k_tall"], cats["4k_rev"]],
+        "0": [cats["mk"], cats["mc"], cats["tc"]],
+        "1": [cats["1k"], cats["tc"]],
+        "2": [cats["2k"], cats["tc"]],
+        "4": [cats["2k"], cats["2k_rev"], cats["tc"]],
+        "5": [cats["2k"], cats["1k"], cats["2k_rev"], cats["tc"]],
+        "6": [cats["4k"], cats["4k_rev"], cats["tc"]],
+        "7": [cats["4k"], cats["1k_tall"], cats["4k_rev"], cats["tc"]],
+        "8": [cats["4k"], cats["4k_rev"], cats["tc"]],
+        "9": [cats["4k"], cats["1k_tall"], cats["4k_rev"], cats["tc"]],
     }
 
     global win

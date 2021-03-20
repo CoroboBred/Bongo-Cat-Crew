@@ -34,7 +34,7 @@ class CatMouse(cat.Cat):
         mouse_pad = self.textures["pad"].copy()
         mouse_pad = mouse_pad.scaledToHeight(int(self.h / 2))
         x_offset = 350
-        y_offset = 60
+        y_offset = 40
         painter.drawPixmap(self.w - mouse_pad.width() - x_offset, self.h - mouse_pad.height() - y_offset, mouse_pad)
 
         x_cursor, y_cursor = pyautogui.position()
@@ -55,7 +55,7 @@ class CatMouse(cat.Cat):
         self.draw_arm(painter, x_mouse + (120 * fx), y_mouse + (40 * fy), x, y, x + 70, y - 30, -30)
 
         x, y = 600, 170
-        self.draw_arm(painter, x_mouse + (90 * fx), y_mouse + (90 * fy), x, y, x + 70, y - 10, 30)
+        self.draw_arm(painter, x_mouse + (60 * fx), y_mouse + (90 * fy), x, y, x + 70, y - 10, 30)
         painter.end()
 
         self.label.setPixmap(pix_map)

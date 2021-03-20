@@ -12,6 +12,18 @@ def load_textures():
         "4k": load_4k_textures(path),
         "4k_rev": load_rev_4k_textures(path),
         "mouse": load_mouse_textures(path),
+        "talk": load_talking_textures(path),
+    }
+
+
+def load_talking_textures(path):
+    path = os.path.join(path, "talking_cat")
+
+    return {
+        "idle":  QtGui.QPixmap(os.path.join(path, "cat_idle.png")),
+        "talking_0":  QtGui.QPixmap(os.path.join(path, "cat_talking_0.png")),
+        "talking_1":  QtGui.QPixmap(os.path.join(path, "cat_talking_1.png")),
+        "talking_2": QtGui.QPixmap(os.path.join(path, "cat_talking_2.png")),
     }
 
 
