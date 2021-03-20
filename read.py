@@ -24,6 +24,8 @@ def load_talking_textures(path):
         "talking_0":  QtGui.QPixmap(os.path.join(path, "cat_talking_0.png")),
         "talking_1":  QtGui.QPixmap(os.path.join(path, "cat_talking_1.png")),
         "talking_2": QtGui.QPixmap(os.path.join(path, "cat_talking_2.png")),
+        "talking_3": QtGui.QPixmap(os.path.join(path, "cat_talking_3.png")),
+        "talking_4": QtGui.QPixmap(os.path.join(path, "cat_talking_4.png")),
     }
 
 
