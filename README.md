@@ -12,6 +12,7 @@ Download the repo and run the program using `python3`. The list of python depend
 * pyautogui
 * pyaudio
 * array
+* pygame
 
 All of these packages can be installed using `pip3`.
 

@@ -30,6 +30,14 @@ def load_talking_textures(path):
 
 
 def load_mouse_textures(path):
+    path = os.path.join(path, "joystick_cat")
+
+    return {
+        "base":  QtGui.QPixmap(os.path.join(path, "joystick_cat_base.png")),
+    }
+
+
+def load_mouse_textures(path):
     path = os.path.join(path, "mouse_cat")
 
     return {

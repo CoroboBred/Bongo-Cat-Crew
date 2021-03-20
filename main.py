@@ -9,6 +9,7 @@ from PyQt5 import QtWidgets, QtCore  # import PyQt5 widgets
 import cat1k
 import cat2k
 import cat4k
+import catJoystick
 import catMouse
 import catTalk
 import read
@@ -130,6 +131,7 @@ def main():
         "mk": cat2k.Cat2k(cats_keys["mk"], textures["2k"]),
         "mc": catMouse.CatMouse(textures["mouse"]),
         "tc": catTalk.CatTalk(textures["talk"]),
+        "jc": catJoystick.catJoystick(textures["joystick"]),
     }
     cat_configs = {
         "0": [cats["mk"], cats["mc"], cats["tc"]],
@@ -141,6 +143,7 @@ def main():
         "7": [cats["4k"], cats["1k_tall"], cats["4k_rev"], cats["tc"]],
         "8": [cats["4k"], cats["4k_rev"], cats["tc"]],
         "9": [cats["4k"], cats["1k_tall"], cats["4k_rev"], cats["tc"]],
+        "-": [cats["jc"], cats["tc"]],
     }
 
     global win

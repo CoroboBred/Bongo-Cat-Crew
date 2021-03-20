@@ -2,6 +2,7 @@ from PyQt5 import QtWidgets, QtGui, QtCore  # import PyQt5 widgets
 
 import cat
 
+
 class Cat4k(cat.Cat):
     def __init__(self, keys, textures):
         super(Cat4k, self).__init__()
