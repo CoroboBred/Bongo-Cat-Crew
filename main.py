@@ -37,9 +37,9 @@ class MainWindow(QtWidgets.QMainWindow):
             self.cat_layouts[layout_key] = layout
             index = index + 1
 
-        config = list(self.cat_configs.keys())[0]  # get the last cat configuration.
-        self.set_cat_layout(config)
-        self.stack.setCurrentIndex(self.layout_indices["0"])
+        self.curr_config = list(self.cat_configs.keys())[0]  # get the last cat configuration.
+        self.set_cat_layout()
+        self.stack.setCurrentIndex(self.layout_indices[self.curr_config])
         self.setCentralWidget(self.stack)
         self.setStyleSheet("background-color: blue;")
         self.setWindowTitle("Bongo cat")
@@ -58,26 +58,27 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def key_press(self, key, pressed):
         if "0" <= key <= "9":
-            self.update_cats(key, pressed)
+            self.update_layout(key, pressed)
             return
-        for cat in self.all_cats:
-            self.all_cats[cat].update_key(key, pressed)
+        for cat in self.cat_configs[self.curr_config]:
+            cat.update_key(key, pressed)
 
-    def update_cats(self, key, pressed=False):
+    def update_layout(self, key, pressed=False):
         if pressed or key not in self.layout_indices:
             return
         self.stack.setCurrentIndex(self.layout_indices[key])
 
-        if key not in self.cat_configs:
+        self.curr_config = key
+        if self.curr_config not in self.cat_configs:
             return
-        self.set_cat_layout(key)
+        self.set_cat_layout()
 
-    def set_cat_layout(self, key):
-        layout = self.cat_layouts[key]
+    def set_cat_layout(self):
+        layout = self.cat_layouts[self.curr_config]
         buffer = QtWidgets.QWidget()
         buffer.setSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
         layout.addWidget(buffer)
-        for cat in self.cat_configs[key]:
+        for cat in self.cat_configs[self.curr_config]:
             layout.addWidget(cat, 0, QtCore.Qt.AlignBottom | QtCore.Qt.AlignRight)
         layout.setAlignment(QtCore.Qt.AlignBottom | QtCore.Qt.AlignRight)
 
@@ -141,6 +142,7 @@ def main():
         "7": [cats["4k"], cats["1k_tall"], cats["4k_rev"], cats["tc"]],
         "8": [cats["4k"], cats["4k_rev"], cats["tc"]],
         "9": [cats["4k"], cats["1k_tall"], cats["4k_rev"], cats["tc"]],
+        "-": [cats["tc"]],
     }
 
     global win

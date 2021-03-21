@@ -26,7 +26,7 @@ class CatMouse(cat.Cat):
 
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.update_mouse)
-        self.timer.start(10)
+        self.timer.start(int(100/4))  # 40 fps
 
     def update_mouse(self):
         pix_map = self.textures["base"].copy()
