@@ -17,7 +17,7 @@ TRIM_APPEND = RATE / 4
 
 
 class CatTalk(cat.Cat):
-    def __init__(self, textures):
+    def __init__(self, textures, timer):
         super(CatTalk, self).__init__()
         self.textures = textures
         self.is_talking = False
@@ -51,6 +51,14 @@ class CatTalk(cat.Cat):
         self.listener.talking_updater.connect(self.update_talking)
         self.thread.start()
 
+        timer.timeout.connect(self.update)
+
+    def update(self):
+        if self.is_talking:
+            self.label.setPixmap(self.talking_textures[self.index])
+        else:
+            self.label.setPixmap(self.idle_texture)
+
     def update_talking(self, talking):
         if not talking:
             if self.is_talking and self.trail <= 1:
@@ -58,17 +66,14 @@ class CatTalk(cat.Cat):
             else:
                 self.trail = 0
                 self.is_talking = False
-                self.label.setPixmap(self.idle_texture)
             return
 
         self.trail = 0
         self.is_talking = True
-        index = self.index
         if self.stale == 3:
             self.stale = 0
-            index = randrange(len(self.talking_textures))
+            self.index = randrange(len(self.talking_textures))
 
-        self.label.setPixmap(self.talking_textures[index])
         self.stale += 1
 
 

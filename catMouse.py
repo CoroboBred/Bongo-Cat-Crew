@@ -7,7 +7,7 @@ import pyautogui
 
 
 class CatMouse(cat.Cat):
-    def __init__(self, textures):
+    def __init__(self, textures, timer):
         super(CatMouse, self).__init__()
         self.textures = textures
         self.label = QtWidgets.QLabel("4k_cat")
@@ -24,9 +24,7 @@ class CatMouse(cat.Cat):
         self.update_mouse()
         self.setLayout(self.layout)
 
-        self.timer = QtCore.QTimer()
-        self.timer.timeout.connect(self.update_mouse)
-        self.timer.start(int(100/4))  # 40 fps
+        timer.timeout.connect(self.update_mouse)
 
     def update_mouse(self):
         pix_map = self.textures["base"].copy()

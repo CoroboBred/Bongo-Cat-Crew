@@ -1,9 +1,11 @@
 from PyQt5 import QtWidgets, QtGui, QtCore  # import PyQt5 widgets
 
+import keyboard
 import cat
 
+
 class Cat2k(cat.Cat):
-    def __init__(self, keys, textures):
+    def __init__(self, keys, textures, timer):
         super(Cat2k, self).__init__()
         self.keys = keys
         self.textures = textures
@@ -24,17 +26,11 @@ class Cat2k(cat.Cat):
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(self.layout)
 
-    def update_key(self, key, is_pressed):
-        index = -1
+        timer.timeout.connect(self.update)
+
+    def update(self):
         for i in range(len(self.keys)):
-            if self.keys[i] == key:
-                index = i
-                break
-
-        if index == -1:
-            return
-
-        self.pressed_keys[index] = is_pressed
+            self.pressed_keys[i] = keyboard.is_pressed(self.keys[i])
 
         l_text = self.textures["l_" + str(int(self.pressed_keys[0]))]
         r_text = self.textures["r_" + str(int(self.pressed_keys[1]))]

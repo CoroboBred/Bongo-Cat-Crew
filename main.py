@@ -15,7 +15,7 @@ import read
 
 
 class MainWindow(QtWidgets.QMainWindow):
-    def __init__(self, cat_configs, all_cats):
+    def __init__(self, cat_configs, all_cats, timer):
         super(MainWindow, self).__init__()
 
         self.cat_configs = cat_configs
@@ -37,13 +37,14 @@ class MainWindow(QtWidgets.QMainWindow):
             self.cat_layouts[layout_key] = layout
             index = index + 1
 
-        self.curr_config = list(self.cat_configs.keys())[0]  # get the last cat configuration.
-        self.set_cat_layout()
-        self.stack.setCurrentIndex(self.layout_indices[self.curr_config])
+        key = list(self.cat_configs.keys())[0]  # get the first cat configuration.
+        self.set_cat_layout(key)
         self.setCentralWidget(self.stack)
         self.setStyleSheet("background-color: blue;")
         self.setWindowTitle("Bongo cat")
+        self.keys = [chr(c) for c in range(48, 58)]
 
+        timer.timeout.connect(self.update)
         self.show()
 
     def set_width(self):
@@ -56,29 +57,19 @@ class MainWindow(QtWidgets.QMainWindow):
                 max_width = width
         self.setFixedWidth(max_width)
 
-    def key_press(self, key, pressed):
-        if "0" <= key <= "9":
-            self.update_layout(key, pressed)
-            return
-        for cat in self.cat_configs[self.curr_config]:
-            cat.update_key(key, pressed)
+    def update(self):
+        for key in self.keys:
+            if keyboard.is_pressed(key):
+                self.set_cat_layout(key)
 
-    def update_layout(self, key, pressed=False):
-        if pressed or key not in self.layout_indices:
-            return
+    def set_cat_layout(self, key):
         self.stack.setCurrentIndex(self.layout_indices[key])
 
-        self.curr_config = key
-        if self.curr_config not in self.cat_configs:
-            return
-        self.set_cat_layout()
-
-    def set_cat_layout(self):
-        layout = self.cat_layouts[self.curr_config]
+        layout = self.cat_layouts[key]
         buffer = QtWidgets.QWidget()
         buffer.setSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
         layout.addWidget(buffer)
-        for cat in self.cat_configs[self.curr_config]:
+        for cat in self.cat_configs[key]:
             layout.addWidget(cat, 0, QtCore.Qt.AlignBottom | QtCore.Qt.AlignRight)
         layout.setAlignment(QtCore.Qt.AlignBottom | QtCore.Qt.AlignRight)
 
@@ -101,19 +92,7 @@ class MainWindow(QtWidgets.QMainWindow):
 #       self.layout.activate()
 
 
-class Emitter(QtCore.QObject):
-    key_updated = QtCore.pyqtSignal(str, bool)
-
-
 win = {}
-emitter = Emitter()
-
-
-def key_event(e):
-    key = e.name
-    if key == "space":
-        key = " "
-    emitter.key_updated.emit(key, e.event_type == "down")
 
 
 def main():
@@ -121,35 +100,35 @@ def main():
 
     cats_keys = read.read_config()
     textures = read.load_textures()
+    timer = QtCore.QTimer()
     cats = {
-        "1k":   cat1k.Cat1k(cats_keys["1k"], textures["1k"]),
-        "1k_tall":   cat1k.Cat1k(cats_keys["1k"], textures["1k_tall"]),
-        "2k": cat2k.Cat2k(cats_keys["2k"], textures["2k"]),
-        "2k_rev": cat2k.Cat2k(cats_keys["2k_rev"], textures["2k_rev"]),
-        "4k":    cat4k.Cat4k(cats_keys["4k"], textures["4k"]),
-        "4k_rev": cat4k.Cat4k(cats_keys["4k_rev"], textures["4k_rev"]),
-        "mk": cat2k.Cat2k(cats_keys["mk"], textures["2k"]),
-        "mc": catMouse.CatMouse(textures["mouse"]),
-        "tc": catTalk.CatTalk(textures["talk"]),
+        "1k":   cat1k.Cat1k(cats_keys["1k"], textures["1k"], timer),
+        "1k_tall":   cat1k.Cat1k(cats_keys["1k"], textures["1k_tall"], timer),
+        "2k": cat2k.Cat2k(cats_keys["2k"], textures["2k"], timer),
+        "2k_rev": cat2k.Cat2k(cats_keys["2k_rev"], textures["2k_rev"], timer),
+        "4k":    cat4k.Cat4k(cats_keys["4k"], textures["4k"], timer),
+        "4k_rev": cat4k.Cat4k(cats_keys["4k_rev"], textures["4k_rev"], timer),
+        "mk": cat2k.Cat2k(cats_keys["mk"], textures["2k"], timer),
+        "mc": catMouse.CatMouse(textures["mouse"], timer),
+        "tc": catTalk.CatTalk(textures["talk"], timer),
     }
     cat_configs = {
         "0": [cats["mk"], cats["mc"], cats["tc"]],
-        "1": [cats["1k"], cats["tc"]],
-        "2": [cats["2k"], cats["tc"]],
-        "4": [cats["2k"], cats["2k_rev"], cats["tc"]],
-        "5": [cats["2k"], cats["1k"], cats["2k_rev"], cats["tc"]],
-        "6": [cats["4k"], cats["4k_rev"], cats["tc"]],
-        "7": [cats["4k"], cats["1k_tall"], cats["4k_rev"], cats["tc"]],
-        "8": [cats["4k"], cats["4k_rev"], cats["tc"]],
-        "9": [cats["4k"], cats["1k_tall"], cats["4k_rev"], cats["tc"]],
+        "1": [cats["1k"]],
+        "2": [cats["2k"]],
+        "4": [cats["2k"], cats["2k_rev"] ],
+        "5": [cats["2k"], cats["1k"], cats["2k_rev"]],
+        "6": [cats["4k"], cats["4k_rev"]],
+        "7": [cats["4k"], cats["1k_tall"], cats["4k_rev"]],
+        "8": [cats["4k"], cats["4k_rev"]],
+        "9": [cats["4k"], cats["1k_tall"], cats["4k_rev"]],
         "-": [cats["tc"]],
     }
 
     global win
-    win = MainWindow(cat_configs, cats)
-    emitter.key_updated.connect(win.key_press)
+    win = MainWindow(cat_configs, cats, timer)
+    timer.start(int(100 / 4))  # 40 fps
 
-    keyboard.hook(key_event)
     sys.exit(app.exec_())
 
 

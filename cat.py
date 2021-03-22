@@ -5,7 +5,7 @@ class Cat(QtWidgets.QWidget):
     def __init__(self):
         super(Cat, self).__init__()
 
-    def update_key(self, key, is_pressed):
+    def update(self):
         pass
 
     def width(self):

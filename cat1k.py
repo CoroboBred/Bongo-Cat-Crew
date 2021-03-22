@@ -1,10 +1,11 @@
 from PyQt5 import QtWidgets, QtCore  # import PyQt5 widgets
 
+import keyboard
 import cat
 
 
 class Cat1k(cat.Cat):
-    def __init__(self, key, textures):
+    def __init__(self, key, textures, timer):
         super(Cat1k, self).__init__()
         self.key = key
         self.textures = textures
@@ -20,12 +21,10 @@ class Cat1k(cat.Cat):
         self.layout.setSpacing(0)
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(self.layout)
+        timer.timeout.connect(self.update)
 
-    def update_key(self, key, is_pressed):
-        if self.key != key:
-            return
-
-        self.label.setPixmap(self.textures[str(int(is_pressed))])
+    def update(self):
+        self.label.setPixmap(self.textures[str(int(keyboard.is_pressed(self.key)))])
 
     def width(self):
         return self.w

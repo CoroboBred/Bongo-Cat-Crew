@@ -130,4 +130,4 @@ def read_key(line):
     split = line.split("=")
     if len(split) != 2:
         raise ValueError("incorrectly formatted line in config file: '" + line + "'")
-    return split[1][0]
+    return split[1].strip()
