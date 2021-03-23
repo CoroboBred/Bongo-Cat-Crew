@@ -1,9 +1,6 @@
 import sys
 
 import keyboard
-import win32gui
-import win32process
-import psutil
 from PyQt5 import QtWidgets, QtCore  # import PyQt5 widgets
 
 import cat1k
@@ -42,7 +39,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setCentralWidget(self.stack)
         self.setStyleSheet("background-color: blue;")
         self.setWindowTitle("Bongo cat")
-        self.keys = [chr(c) for c in range(48, 58)]
 
         timer.timeout.connect(self.update)
         self.show()
@@ -58,7 +54,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setFixedWidth(max_width)
 
     def update(self):
-        for key in self.keys:
+        for key in self.cat_configs:
             if keyboard.is_pressed(key):
                 self.set_cat_layout(key)
 
@@ -73,24 +69,6 @@ class MainWindow(QtWidgets.QMainWindow):
             layout.addWidget(cat, 0, QtCore.Qt.AlignBottom | QtCore.Qt.AlignRight)
         layout.setAlignment(QtCore.Qt.AlignBottom | QtCore.Qt.AlignRight)
 
-    # TODO: Update 'set_layout func to read and render osu! title instead.
-#   def set_layout(self):
-#       window = win32gui.GetForegroundWindow()
-#       pid = win32process.GetWindowThreadProcessId(window)  # This produces a list of PIDs active window relates to
-#       name = psutil.Process(pid[-1]).name()  # pid[-1] is the most likely to survive last longer
-#       if name != "osu!.exe":
-#           return
-
-#       self.layout = QtWidgets.QHBoxLayout()
-#       config = self.get_config(win32gui.GetWindowText(window))
-#       for cat in self.cat_layouts[config]:
-#           self.layout.addWidget(cat, 0, QtCore.Qt.AlignBottom | QtCore.Qt.AlignLeft)
-#       self.container = QtWidgets.QWidget()
-#       self.container.setLayout(self.layout)
-#       self.setCentralWidget(self.container)
-
-#       self.layout.activate()
-
 
 win = {}
 
@@ -104,6 +82,8 @@ def main():
     cats = {
         "1k":   cat1k.Cat1k(cats_keys["1k"], textures["1k"], timer),
         "1k_tall":   cat1k.Cat1k(cats_keys["1k"], textures["1k_tall"], timer),
+        "1k_l": cat1k.Cat1k(cats_keys["3k"][0], textures["1k"], timer),
+        "1k_r": cat1k.Cat1k(cats_keys["3k"][2], textures["1k"], timer),
         "2k": cat2k.Cat2k(cats_keys["2k"], textures["2k"], timer),
         "2k_rev": cat2k.Cat2k(cats_keys["2k_rev"], textures["2k_rev"], timer),
         "4k":    cat4k.Cat4k(cats_keys["4k"], textures["4k"], timer),
@@ -114,14 +94,15 @@ def main():
     }
     cat_configs = {
         "0": [cats["mk"], cats["mc"], cats["tc"]],
-        "1": [cats["1k"]],
-        "2": [cats["2k"]],
-        "4": [cats["2k"], cats["2k_rev"] ],
-        "5": [cats["2k"], cats["1k"], cats["2k_rev"]],
-        "6": [cats["4k"], cats["4k_rev"]],
-        "7": [cats["4k"], cats["1k_tall"], cats["4k_rev"]],
-        "8": [cats["4k"], cats["4k_rev"]],
-        "9": [cats["4k"], cats["1k_tall"], cats["4k_rev"]],
+        "1": [cats["1k"], cats["tc"]],
+        "2": [cats["2k"], cats["tc"]],
+        "3": [cats["1k_l"], cats["1k"], cats["1k_r"], cats["tc"]],
+        "4": [cats["2k"], cats["2k_rev"], cats["tc"]],
+        "5": [cats["2k"], cats["1k"], cats["2k_rev"], cats["tc"]],
+        "6": [cats["4k"], cats["4k_rev"], cats["tc"]],
+        "7": [cats["4k"], cats["1k_tall"], cats["4k_rev"], cats["tc"]],
+        "8": [cats["4k"], cats["4k_rev"], cats["tc"]],
+        "9": [cats["4k"], cats["1k_tall"], cats["4k_rev"], cats["tc"]],
         "-": [cats["tc"]],
     }
 

@@ -121,6 +121,7 @@ def read_config():
     cats_keys["1k"] = keys[4]
     cats_keys["2k_rev"] = keys[5:7]
     cats_keys["4k_rev"] = keys[5:10]
+    cats_keys["3k"] = keys[3:6]
     file.close()
 
     return cats_keys
