@@ -6,7 +6,7 @@ from array import array
 from sys import byteorder
 from random import randrange
 
-THRESHOLD = 100
+THRESHOLD = 160
 CHUNK_SIZE = 10000  # about .25 seconds.
 FORMAT = pyaudio.paInt16
 FRAME_MAX_VALUE = 2 ** 15 - 1
@@ -85,13 +85,15 @@ class Listener(QtCore.QObject):
         stream = audio.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, output=True,
                             frames_per_buffer=CHUNK_SIZE)
 
+        prev_chunk = array('h', [])
         while True:
             # little endian, signed short
             data_chunk = array('h', stream.read(CHUNK_SIZE))
             if byteorder == 'big':
                 data_chunk.byteswap()
 
-            self.talking_updater.emit(is_talking(data_chunk))
+            self.talking_updater.emit(is_talking(prev_chunk + data_chunk))
+            prev_chunk = data_chunk
 
 
 def is_talking(snd_data):
