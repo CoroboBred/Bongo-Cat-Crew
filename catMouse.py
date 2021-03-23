@@ -1,5 +1,3 @@
-import math
-
 from PyQt5 import QtWidgets, QtGui, QtCore  # import PyQt5 widgets
 
 import cat

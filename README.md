@@ -6,9 +6,7 @@ A program that dynamically displays a different assortment of cats to match the 
 Download the repo and run the program using `python3`. The list of python dependencies include:
 * sys
 * keyboard
-* psutil
 * pyqt5
-* pywin32
 * pyautogui
 * pyaudio
 * array
@@ -17,5 +15,9 @@ All of these packages can be installed using `pip3`.
 
 
 # Configuration
-To change the keypress that map to each cats key, update the `config.txt` file to your desired set up. 
-Currently there are 4 possible configurations are supported. 4 key, 5 key, and 9 key mode. Each mode can be enabled by pressing the associated number key.
+There are currently 11 supported layouts which can be set by the top row of the keyboard. Numbers `1` to `9` sets the
+layout to a set of cats which control that many number of keys. The `-` symbol displays a unique layout that displays
+a two key cat with a cat that controls a mouse. In addition, every layout also displays a talking cat which plays a
+talking animation to mimic talking when it detects audio input.
+
+To change which keys activate the cats, modify the config.txt file.

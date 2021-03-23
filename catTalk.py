@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets, QtGui, QtCore  # import PyQt5 widgets
+from PyQt5 import QtWidgets, QtCore  # import PyQt5 widgets
 
 import cat
 import pyaudio

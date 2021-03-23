@@ -93,7 +93,7 @@ def main():
         "tc": catTalk.CatTalk(textures["talk"], timer),
     }
     cat_configs = {
-        "0": [cats["mk"], cats["mc"], cats["tc"]],
+        "0": [cats["tc"]],
         "1": [cats["1k"], cats["tc"]],
         "2": [cats["2k"], cats["tc"]],
         "3": [cats["1k_l"], cats["1k"], cats["1k_r"], cats["tc"]],
@@ -103,7 +103,7 @@ def main():
         "7": [cats["4k"], cats["1k_tall"], cats["4k_rev"], cats["tc"]],
         "8": [cats["4k"], cats["4k_rev"], cats["tc"]],
         "9": [cats["4k"], cats["1k_tall"], cats["4k_rev"], cats["tc"]],
-        "-": [cats["tc"]],
+        "-": [cats["mk"], cats["mc"], cats["tc"]],
     }
 
     global win
