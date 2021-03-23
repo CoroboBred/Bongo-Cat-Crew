@@ -2,7 +2,7 @@
 A program that dynamically displays a different assortment of cats to match the currently playing OSU! game mode.
 
 
-# Installation
+# Installation The Hard way
 Download the repo and run the program using `python3`. The list of python dependencies include:
 * sys
 * keyboard
@@ -10,8 +10,11 @@ Download the repo and run the program using `python3`. The list of python depend
 * pyautogui
 * pyaudio
 * array
+* os
+* random
 
 All of these packages can be installed using `pip3`.
+Once installed you can run the script from the terminal with a simple `python3 main.py`.
 
 
 # Configuration
