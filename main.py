@@ -34,8 +34,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.cat_layouts[layout_key] = layout
             index = index + 1
 
-        key = list(self.cat_configs.keys())[0]  # get the first cat configuration.
-        self.set_cat_layout(key)
+        self.set_cat_layout('-')  # Default to using the mouse cat layout.
         self.setCentralWidget(self.stack)
         self.setStyleSheet("background-color: blue;")
         self.setWindowTitle("Bongo cat")
