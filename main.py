@@ -6,6 +6,7 @@ from PyQt5 import QtWidgets, QtCore  # import PyQt5 widgets
 import cat1k
 import cat2k
 import cat4k
+import catJoy
 import catMouse
 import catTalk
 import read
@@ -34,7 +35,8 @@ class MainWindow(QtWidgets.QMainWindow):
             self.cat_layouts[layout_key] = layout
             index = index + 1
 
-        self.set_cat_layout('-')  # Default to using the mouse cat layout.
+        self.curr_layout = '-'
+        self.set_cat_layout(self.curr_layout)  # Default to using the mouse cat layout.
         self.setCentralWidget(self.stack)
         self.setStyleSheet("background-color: blue;")
         self.setWindowTitle("Bongo cat")
@@ -53,11 +55,17 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setFixedWidth(max_width)
 
     def update(self):
+        # when using the joystick layout, only allow switching to the mouse layout due to conflicting input keys.
+        if self.curr_layout == '`':
+            if keyboard.is_pressed('-'):
+                self.set_cat_layout('-')
+            return
         for key in self.cat_configs:
             if keyboard.is_pressed(key):
                 self.set_cat_layout(key)
 
     def set_cat_layout(self, key):
+        self.curr_layout = key
         self.stack.setCurrentIndex(self.layout_indices[key])
 
         layout = self.cat_layouts[key]
@@ -90,6 +98,9 @@ def main():
         "mk": cat2k.Cat2k(cats_keys["mk"], textures["2k"], timer),
         "mc": catMouse.CatMouse(textures["mouse"], timer),
         "tc": catTalk.CatTalk(textures["talk"], timer),
+        "jk1": cat2k.Cat2k(cats_keys["lub"], textures["2k"], timer),
+        "jk2": cat2k.Cat2k(cats_keys["drb"], textures["2k_rev"], timer),
+        "jc": catJoy.CatJoy(cats_keys["joystick"], textures["joystick"], timer),
     }
     cat_configs = {
         "0": [cats["tc"]],
@@ -103,6 +114,7 @@ def main():
         "8": [cats["4k"], cats["4k_rev"], cats["tc"]],
         "9": [cats["4k"], cats["1k_tall"], cats["4k_rev"], cats["tc"]],
         "-": [cats["mk"], cats["mc"], cats["tc"]],
+        "`": [cats["jk1"], cats["jk2"], cats["jc"], cats["tc"]],
     }
 
     global win

@@ -13,6 +13,22 @@ def load_textures():
         "4k_rev": load_rev_4k_textures(path),
         "mouse": load_mouse_textures(path),
         "talk": load_talking_textures(path),
+        "joystick": load_joystick_textures(path),
+    }
+
+
+def load_joystick_textures(path):
+    path = os.path.join(path, "joystick_cat")
+    return {
+        "0000": QtGui.QPixmap(os.path.join(path, "joystick_cat_idle.png")),
+        "1000": QtGui.QPixmap(os.path.join(path, "joystick_cat_left.png")),
+        "1100": QtGui.QPixmap(os.path.join(path, "joystick_cat_left_up.png")),
+        "0100": QtGui.QPixmap(os.path.join(path, "joystick_cat_up.png")),
+        "0110": QtGui.QPixmap(os.path.join(path, "joystick_cat_up_right.png")),
+        "0010": QtGui.QPixmap(os.path.join(path, "joystick_cat_right.png")),
+        "0011": QtGui.QPixmap(os.path.join(path, "joystick_cat_right_down.png")),
+        "0001": QtGui.QPixmap(os.path.join(path, "joystick_cat_down.png")),
+        "1001": QtGui.QPixmap(os.path.join(path, "joystick_cat_down_left.png")),
     }
 
 
@@ -122,6 +138,16 @@ def read_config():
     cats_keys["2k_rev"] = keys[5:7]
     cats_keys["4k_rev"] = keys[5:10]
     cats_keys["3k"] = keys[3:6]
+
+    file.readline()  # read blank line.
+    file.readline()  # read 'Joystick Layout' line.
+    joystick = []
+    for i in range(8):
+        joystick.append(read_key(file.readline()))
+    cats_keys["lub"] = joystick[0:2]
+    cats_keys["drb"] = joystick[2:4]
+    cats_keys["joystick"] = joystick[4:8]
+
     file.close()
 
     return cats_keys
