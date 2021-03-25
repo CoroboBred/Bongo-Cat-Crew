@@ -24,3 +24,5 @@ stick_left=left
 stick_up=up
 stick_right=right
 stick_down=down
+left_bumper=ctrl
+right_bumper=end

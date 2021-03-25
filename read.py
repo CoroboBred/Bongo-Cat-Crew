@@ -158,10 +158,12 @@ def read_config():
     file.readline()  # read blank line.
     file.readline()  # read 'Joystick Layout' line.
     joystick = []
-    for i in range(8):
+    for i in range(10):
         joystick.append(read_key(file.readline()))
     cats_keys["bc"] = joystick[0:4]
     cats_keys["jc"] = joystick[4:8]
+    cats_keys["lb"] = joystick[8]
+    cats_keys["rb"] = joystick[9]
 
     file.close()
 

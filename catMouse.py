@@ -29,8 +29,8 @@ class CatMouse(cat.Cat):
         painter = QtGui.QPainter(pix_map)
         mouse_pad = self.textures["pad"].copy()
         mouse_pad = mouse_pad.scaledToHeight(int(self.h / 2))
-        x_offset = 50
-        y_offset = 40
+        x_offset = 10
+        y_offset = 0
         painter.drawPixmap(self.w - mouse_pad.width() - x_offset, self.h - mouse_pad.height() - y_offset, mouse_pad)
 
         x_cursor, y_cursor = pyautogui.position()
@@ -44,14 +44,14 @@ class CatMouse(cat.Cat):
 
         painter.drawPixmap(x_mouse, y_mouse, mouse_map)
 
-        x, y = 430, 220  # x, y coordinates of where to start the arm.
+        x, y = 120, 210  # x, y coordinates of where to start the arm.
 
         fx = x_mouse / ((mouse_pad.width() - mouse_map.width()) - x_offset + self.w - mouse_pad.width())
         fy = y_mouse / ((mouse_pad.height() - mouse_map.height() - mouse_map.height()) - y_offset + self.h - mouse_pad.height() + mouse_map.height())
         self.draw_arm(painter, x_mouse + (120 * fx), y_mouse + (70 * fy), x, y, x + 70, y - 30, -50)
 
-        x, y = 600, 170
-        self.draw_arm(painter, x_mouse + (60 * fx), y_mouse + (90 * fy), x, y, x + 70, y - 10, -50)
+        x, y = 240, 180
+        self.draw_arm(painter, x_mouse + (60 * fx), y_mouse + (90 * fy), x, y, x + 70, y - 10, -100)
         painter.end()
 
         self.label.setPixmap(pix_map)

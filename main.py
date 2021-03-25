@@ -100,6 +100,8 @@ def main():
         "tc": catTalk.CatTalk(textures["talk"], timer),
         "bc": cat4k.Cat4k(cats_keys["bc"], textures["button"], timer),
         "jc": catJoy.CatJoy(cats_keys["jc"], textures["joystick"], timer),
+        "lb": cat1k.Cat1k(cats_keys["lb"], textures["1k"], timer),
+        "rb": cat1k.Cat1k(cats_keys["rb"], textures["1k"], timer),
     }
     cat_configs = {
         "0": [cats["tc"]],
@@ -113,7 +115,7 @@ def main():
         "8": [cats["4k"], cats["4k_rev"], cats["tc"]],
         "9": [cats["4k"], cats["1k_tall"], cats["4k_rev"], cats["tc"]],
         "-": [cats["mk"], cats["mc"], cats["tc"]],
-        "`": [cats["bc"], cats["jc"], cats["tc"]],
+        "`": [cats["lb"], cats["bc"], cats["rb"], cats["jc"], cats["tc"]],
     }
 
     global win
