@@ -16,10 +16,10 @@ key8=l
 key9=;
 
     Joystick Layout
-left_button=page up
 up_button=page down
+right_button=page up
 down_button=enter
-right_button=space
+left_button=space
 stick_left=left
 stick_up=up
 stick_right=right

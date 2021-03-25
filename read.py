@@ -1,4 +1,4 @@
-from PyQt5 import QtGui, QtCore  # import PyQt5 widgets
+from PyQt5 import QtGui  # import PyQt5 widgets
 import os
 
 
@@ -14,6 +14,7 @@ def load_textures():
         "mouse": load_mouse_textures(path),
         "talk": load_talking_textures(path),
         "joystick": load_joystick_textures(path),
+        "button": load_button_textures(path),
     }
 
 
@@ -29,6 +30,21 @@ def load_joystick_textures(path):
         "0011": QtGui.QPixmap(os.path.join(path, "joystick_cat_right_down.png")),
         "0001": QtGui.QPixmap(os.path.join(path, "joystick_cat_down.png")),
         "1001": QtGui.QPixmap(os.path.join(path, "joystick_cat_down_left.png")),
+    }
+
+
+def load_button_textures(path):
+    path = os.path.join(path, "button_cat")
+    return {
+        "base": QtGui.QPixmap(os.path.join(path, "button_cat_base.png")),
+        "l_00": QtGui.QPixmap(os.path.join(path, "button_cat_l_00.png")),
+        "l_01": QtGui.QPixmap(os.path.join(path, "button_cat_l_01.png")),
+        "l_10": QtGui.QPixmap(os.path.join(path, "button_cat_l_10.png")),
+        "l_11": QtGui.QPixmap(os.path.join(path, "button_cat_l_11.png")),
+        "r_00": QtGui.QPixmap(os.path.join(path, "button_cat_r_00.png")),
+        "r_01": QtGui.QPixmap(os.path.join(path, "button_cat_r_01.png")),
+        "r_10": QtGui.QPixmap(os.path.join(path, "button_cat_r_10.png")),
+        "r_11": QtGui.QPixmap(os.path.join(path, "button_cat_r_11.png")),
     }
 
 
@@ -144,9 +160,8 @@ def read_config():
     joystick = []
     for i in range(8):
         joystick.append(read_key(file.readline()))
-    cats_keys["lub"] = joystick[0:2]
-    cats_keys["drb"] = joystick[2:4]
-    cats_keys["joystick"] = joystick[4:8]
+    cats_keys["bc"] = joystick[0:4]
+    cats_keys["jc"] = joystick[4:8]
 
     file.close()
 
