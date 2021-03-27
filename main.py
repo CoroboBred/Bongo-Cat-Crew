@@ -83,25 +83,24 @@ win = {}
 def main():
     app = QtWidgets.QApplication(sys.argv)
 
-    cats_keys = read.read_config()
-    textures = read.load_textures()
+    config = read.Config()
     timer = QtCore.QTimer()
     cats = {
-        "1k":   cat1k.Cat1k(cats_keys["1k"], textures["1k"], timer),
-        "1k_tall":   cat1k.Cat1k(cats_keys["1k"], textures["1k_tall"], timer),
-        "1k_l": cat1k.Cat1k(cats_keys["3k"][0], textures["1k"], timer),
-        "1k_r": cat1k.Cat1k(cats_keys["3k"][2], textures["1k"], timer),
-        "2k": cat2k.Cat2k(cats_keys["2k"], textures["2k"], timer),
-        "2k_rev": cat2k.Cat2k(cats_keys["2k_rev"], textures["2k_rev"], timer),
-        "4k":    cat4k.Cat4k(cats_keys["4k"], textures["4k"], timer),
-        "4k_rev": cat4k.Cat4k(cats_keys["4k_rev"], textures["4k_rev"], timer),
-        "mk": cat2k.Cat2k(cats_keys["mk"], textures["2k"], timer),
-        "mc": catMouse.CatMouse(textures["mouse"], timer),
-        "tc": catTalk.CatTalk(textures["talk"], timer),
-        "bc": cat4k.Cat4k(cats_keys["bc"], textures["button"], timer),
-        "jc": catJoy.CatJoy(cats_keys["jc"], textures["joystick"], timer),
-        "lb": cat1k.Cat1k(cats_keys["lb"], textures["1k"], timer),
-        "rb": cat1k.Cat1k(cats_keys["rb"], textures["1k"], timer),
+        "1k":   cat1k.Cat1k(config.keys["1k"], config.textures["1k"], timer),
+        "1k_tall":   cat1k.Cat1k(config.keys["1k"], config.textures["1k_tall"], timer),
+        "1k_l": cat1k.Cat1k(config.keys["3k"][0], config.textures["1k"], timer),
+        "1k_r": cat1k.Cat1k(config.keys["3k"][2], config.textures["1k"], timer),
+        "2k": cat2k.Cat2k(config.keys["2k"], config.textures["2k"], timer),
+        "2k_rev": cat2k.Cat2k(config.keys["2k_rev"], config.textures["2k_rev"], timer),
+        "4k":    cat4k.Cat4k(config.keys["4k"], config.textures["4k"], timer),
+        "4k_rev": cat4k.Cat4k(config.keys["4k_rev"], config.textures["4k_rev"], timer),
+        "mk": cat2k.Cat2k(config.keys["mk"], config.textures["2k"], timer),
+        "mc": catMouse.CatMouse(config.textures["mouse"], timer),
+        "tc": catTalk.CatTalk(config.textures["talk"], timer),
+        "bc": cat4k.Cat4k(config.keys["bc"], config.textures["button"], timer),
+        "jc": catJoy.CatJoy(config.keys["jc"], config.textures["joystick"], timer),
+        "lb": cat1k.Cat1k(config.keys["lb"], config.textures["1k"], timer),
+        "rb": cat1k.Cat1k(config.keys["rb"], config.textures["1k"], timer),
     }
     cat_configs = {
         "0": [cats["tc"]],
