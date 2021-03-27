@@ -40,6 +40,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setCentralWidget(self.stack)
         self.setStyleSheet("background-color: blue;")
         self.setWindowTitle("Bongo cat")
+        self.set_width()
 
         timer.timeout.connect(self.update)
         self.show()
@@ -50,8 +51,7 @@ class MainWindow(QtWidgets.QMainWindow):
             width = 0
             for cat in self.cat_configs[key]:
                 width = width + cat.width()
-            if width > max_width:
-                max_width = width
+            max_width = max(width, max_width)
         self.setFixedWidth(max_width)
 
     def update(self):

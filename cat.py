@@ -9,4 +9,4 @@ class Cat(QtWidgets.QWidget):
         pass
 
     def width(self):
-        pass
+        return 0

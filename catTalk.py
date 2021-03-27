@@ -37,6 +37,7 @@ class CatTalk(cat.Cat):
                 continue
             self.talking_textures.append(text)
 
+        self.w = self.idle_texture.width()
         self.layout = QtWidgets.QHBoxLayout()
         self.layout.setSpacing(0)
         self.layout.setContentsMargins(0, 0, 0, 0)
@@ -76,6 +77,8 @@ class CatTalk(cat.Cat):
 
         self.stale += 1
 
+    def width(self):
+        return self.w
 
 class Listener(QtCore.QObject):
     talking_updater = QtCore.pyqtSignal(bool)

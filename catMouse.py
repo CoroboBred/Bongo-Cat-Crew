@@ -58,7 +58,7 @@ class CatMouse(cat.Cat):
         self.layout.addWidget(self.label)
 
     def width(self):
-        self.w
+        return self.w
 
     def arm_poly(self, x_arm, y_arm, x_mouse, y_mouse, arm_width):
         return QtGui.QPolygonF([QtCore.QPointF(x_arm, y_arm), QtCore.QPointF(x_mouse, y_mouse),
