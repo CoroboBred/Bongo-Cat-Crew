@@ -36,8 +36,9 @@ class Cat4k(cat.Cat):
 
         pix_map = self.textures["base"].copy()
         painter = QtGui.QPainter(pix_map)
-        painter.drawPixmap(0, 0, l_text)
+        # Draw the right side first so that it will overlay on top of the left side.
         painter.drawPixmap(0, 0, r_text)
+        painter.drawPixmap(0, 0, l_text)
         painter.end()
         self.label.setPixmap(pix_map)
 
