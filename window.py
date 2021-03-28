@@ -27,13 +27,14 @@ class MainWindow(QtWidgets.QMainWindow):
             self.q_layouts[layout_key] = layout
             index = index + 1
 
-        self.set_cat_layout(self.curr_layout)  # Default to using the mouse cat layout.
+        self.set_cat_layout(self.curr_layout)
         self.setCentralWidget(self.stack)
         self.setStyleSheet("background-color: green;")
         self.setWindowTitle("Bongo cat")
         self.set_width()
 
-        self.timer.timeout.connect(self.update)
+        if config.enable_dynamic_layout:
+            self.timer.timeout.connect(self.update)
         self.show()
 
     def start(self):
@@ -49,10 +50,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setFixedWidth(max_width)
 
     def update(self):
-        # when using the joystick layout, only allow switching to the mouse layout due to conflicting input keys.
-        if self.curr_layout == '`':
-            if keyboard.is_pressed('-'):
-                self.set_cat_layout('-')
+        # when using the controller or keyboard layout, only switch layouts if
+        # `escape` is also pressed because of conflicting keys.
+        if self.curr_layout == '`' or self.curr_layout == '+' and not keyboard.is_pressed("esc"):
             return
         for key in self.layouts:
             if keyboard.is_pressed(key):

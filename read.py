@@ -5,6 +5,7 @@ from PyQt5 import QtCore, QtGui  # import PyQt5 widgets
 import cat1k
 import cat2k
 import cat4k
+import catBoard
 import catJoy
 import catMouse
 import catTalk
@@ -20,9 +21,9 @@ class Config:
     fps = 40
 
     def __init__(self):
-        self.load_key_layout()
         self.load_textures()
         self.load_config()
+        self.load_key_layout()
         self.timer = QtCore.QTimer()
 
         self.cats = {
@@ -41,6 +42,7 @@ class Config:
             "jc": catJoy.CatJoy(self.keys["jc"], self.textures["joystick"], self.timer),
             "lb": cat1k.Cat1k(self.keys["lb"], self.textures["1k"], self.timer),
             "rb": cat1k.Cat1k(self.keys["rb"], self.textures["1k"], self.timer),
+            "kb": catBoard.CatBoard(self.keys["kb"], self.textures["4k"], self.textures["4k_rev"], self.timer),
         }
 
         self.all_layouts = {
@@ -55,6 +57,7 @@ class Config:
             "8": [self.cats["4k"], self.cats["4k_rev"]],
             "9": [self.cats["4k"], self.cats["1k_tall"], self.cats["4k_rev"]],
             "-": [self.cats["mk"], self.cats["mc"]],
+            "+": [self.cats["kb"]]
         }
 
         if self.enable_bumpers:
@@ -267,11 +270,23 @@ class Config:
 
         file.close()
 
+        # hardcode the keyboard layout
+        self.keys['kb'] = {
+            'kb_00': ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='],
+            'kb_01': ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+'],
+            'kb_10': ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']'],
+            'kb_11': ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}'],
+            'kb_20': ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', 'enter'],
+            'kb_21': ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"', 'enter'],
+            'kb_31': ['shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 'right shift'],
+            'kb_30': ['shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?', 'right shift'],
+        }
+
 
 booleans = ["true", "false"]
 layouts = {
     "mouse": '-',
-    "controller":  '`',
+    "controller": '`',
     "talk": '0',
     "1-key": '1',
     "2-key": '2',
@@ -296,7 +311,7 @@ def read_bool(line):
     value = read_value(line)
     if value not in booleans:
         raise ValueError("incorrectly formatted line in config file: '"
-                         + line + "'" + ": '" + value + "not in " + "".join(booleans))
+                         + line + "'" + ": '" + value + " not in " + "".join(booleans))
     return value == 'true'
 
 
@@ -304,5 +319,5 @@ def read_layout(line):
     value = read_value(line)
     if value not in layouts.keys():
         raise ValueError("incorrectly formatted line in config file: '"
-                         + line + "'" + ": '" + value + "not in " + "".join(layouts.keys()))
+                         + line + "'" + ": '" + value + " not in " + "".join(layouts.keys()))
     return layouts[value]

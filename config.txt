@@ -1,8 +1,8 @@
     Bongo Cat Crew Config File
 
-default_layout=controller
+default_layout=talk
 
-enable_dynamic_layout=false
+enable_dynamic_layout=true
 
 enable_talking=true
 
