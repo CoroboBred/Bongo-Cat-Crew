@@ -1,11 +1,45 @@
-from PyQt5 import QtGui  # import PyQt5 widgets
+from PyQt5 import QtCore, QtGui  # import PyQt5 widgets
 import os
+import cat1k, cat2k, cat4k, catMouse, catTalk, catJoy
 
 
 class Config:
     def __init__(self):
-        self.keys = self.read_config()
+        self.keys = self.read_key_layout()
         self.textures = self.load_textures()
+        self.timer = QtCore.QTimer()
+        self.cats = {
+            "1k": cat1k.Cat1k(self.keys["1k"], self.textures["1k"], self.timer),
+            "1k_tall": cat1k.Cat1k(self.keys["1k"], self.textures["1k_tall"], self.timer),
+            "1k_l": cat1k.Cat1k(self.keys["3k"][0], self.textures["1k"], self.timer),
+            "1k_r": cat1k.Cat1k(self.keys["3k"][2], self.textures["1k"], self.timer),
+            "2k": cat2k.Cat2k(self.keys["2k"], self.textures["2k"], self.timer),
+            "2k_rev": cat2k.Cat2k(self.keys["2k_rev"], self.textures["2k_rev"], self.timer),
+            "4k": cat4k.Cat4k(self.keys["4k"], self.textures["4k"], self.timer),
+            "4k_rev": cat4k.Cat4k(self.keys["4k_rev"], self.textures["4k_rev"], self.timer),
+            "mk": cat2k.Cat2k(self.keys["mk"], self.textures["2k"], self.timer),
+            "mc": catMouse.CatMouse(self.textures["mouse"], self.timer),
+            "tc": catTalk.CatTalk(self.textures["talk"], self.timer),
+            "bc": cat4k.Cat4k(self.keys["bc"], self.textures["button"], self.timer),
+            "jc": catJoy.CatJoy(self.keys["jc"], self.textures["joystick"], self.timer),
+            "lb": cat1k.Cat1k(self.keys["lb"], self.textures["1k"], self.timer),
+            "rb": cat1k.Cat1k(self.keys["rb"], self.textures["1k"], self.timer),
+        }
+        self.cat_configs = {
+            "0": [self.cats["tc"]],
+            "1": [self.cats["1k"], self.cats["tc"]],
+            "2": [self.cats["2k"], self.cats["tc"]],
+            "3": [self.cats["1k_l"], self.cats["1k"], self.cats["1k_r"], self.cats["tc"]],
+            "4": [self.cats["2k"], self.cats["2k_rev"], self.cats["tc"]],
+            "5": [self.cats["2k"], self.cats["1k"], self.cats["2k_rev"], self.cats["tc"]],
+            "6": [self.cats["4k"], self.cats["4k_rev"], self.cats["tc"]],
+            "7": [self.cats["4k"], self.cats["1k_tall"], self.cats["4k_rev"], self.cats["tc"]],
+            "8": [self.cats["4k"], self.cats["4k_rev"], self.cats["tc"]],
+            "9": [self.cats["4k"], self.cats["1k_tall"], self.cats["4k_rev"], self.cats["tc"]],
+            "-": [self.cats["mk"], self.cats["mc"], self.cats["tc"]],
+            "`": [self.cats["lb"], self.cats["bc"], self.cats["rb"], self.cats["jc"], self.cats["tc"]],
+        }
+        self.timer.start(int(100 / 4))  # 40 fps
 
     def load_textures(self):
         path = os.path.join(os.getcwd(), "images")
@@ -151,11 +185,11 @@ class Config:
         }
 
     @staticmethod
-    def read_config():
+    def read_key_layout():
         cats_keys = {}
 
-        file = open("config.txt", "r")
-        file.readline()  # read intro line and empty line
+        file = open("layout.txt", "r")
+        file.readline()  # read title line.
         file.readline()  # read blank line.
 
         file.readline()  # read 'Mouse Layout' title.

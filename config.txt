@@ -1,28 +1,15 @@
     Bongo Cat Crew Config File
 
-    Mouse Layout
-key1=z
-key2=x
+Whether the Layout still stay fixed to a single layout. Possible values are 'true' and 'false'.
+enable_dynamic_layout=false
 
-    Mania Layout
-key1=a
-key2=s
-key3=d
-key4=f
-key5=space
-key6=j
-key7=k
-key8=l
-key9=;
 
-    Joystick Layout
-up_button=page down
-right_button=page up
-down_button=enter
-left_button=space
-stick_left=left
-stick_up=up
-stick_right=right
-stick_down=down
-left_bumper=ctrl
-right_bumper=end
+The initial layout that the program will start with. If 'enable_dynamic_layout=true' then the default layout will be the only layout available. Check the README for possible values.
+default_layout=mouse
+
+Whether to enable the talking cat for all layouts. Possible values are 'true' and 'false'.
+enable_talking=true
+
+
+Whether to enable to bumper cats for the Controller layout. Possible values are 'true' and false'.
+enable_bumpers=false
