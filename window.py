@@ -6,13 +6,16 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, config):
         super(MainWindow, self).__init__()
 
-        self.cat_configs = config.cat_configs
+        self.layouts = config.layouts
+        self.curr_layout = config.default_layout
+        self.fps = config.fps
+        self.timer = config.timer
 
         self.stack = QtWidgets.QStackedWidget()
         self.layout_indices = {}
-        self.cat_layouts = {}
+        self.q_layouts = {}
         index = 0
-        for layout_key in self.cat_configs:
+        for layout_key in self.layouts:
             layout = QtWidgets.QHBoxLayout()
             layout.setSpacing(0)
             layout.setContentsMargins(0, 0, 0, 0)
@@ -21,24 +24,26 @@ class MainWindow(QtWidgets.QMainWindow):
             container.setLayout(layout)
             self.stack.addWidget(container)
             self.layout_indices[layout_key] = index
-            self.cat_layouts[layout_key] = layout
+            self.q_layouts[layout_key] = layout
             index = index + 1
 
-        self.curr_layout = '-'
         self.set_cat_layout(self.curr_layout)  # Default to using the mouse cat layout.
         self.setCentralWidget(self.stack)
         self.setStyleSheet("background-color: green;")
         self.setWindowTitle("Bongo cat")
         self.set_width()
 
-        config.timer.timeout.connect(self.update)
+        self.timer.timeout.connect(self.update)
         self.show()
+
+    def start(self):
+        self.timer.start(1000 / self.fps)
 
     def set_width(self):
         max_width = 0
-        for key in self.cat_configs:
+        for key in self.layouts:
             width = 0
-            for cat in self.cat_configs[key]:
+            for cat in self.layouts[key]:
                 width = width + cat.width()
             max_width = max(width, max_width)
         self.setFixedWidth(max_width)
@@ -49,7 +54,7 @@ class MainWindow(QtWidgets.QMainWindow):
             if keyboard.is_pressed('-'):
                 self.set_cat_layout('-')
             return
-        for key in self.cat_configs:
+        for key in self.layouts:
             if keyboard.is_pressed(key):
                 self.set_cat_layout(key)
 
@@ -57,11 +62,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.curr_layout = key
         self.stack.setCurrentIndex(self.layout_indices[key])
 
-        layout = self.cat_layouts[key]
+        layout = self.q_layouts[key]
         buffer = QtWidgets.QWidget()
         buffer.setSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
         layout.addWidget(buffer)
-        for cat in self.cat_configs[key]:
+        for cat in self.layouts[key]:
             layout.addWidget(cat, 0, QtCore.Qt.AlignBottom | QtCore.Qt.AlignRight)
         layout.setAlignment(QtCore.Qt.AlignBottom | QtCore.Qt.AlignRight)
 

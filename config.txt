@@ -1,15 +1,11 @@
     Bongo Cat Crew Config File
 
-Whether the Layout still stay fixed to a single layout. Possible values are 'true' and 'false'.
+default_layout=controller
+
 enable_dynamic_layout=false
 
-
-The initial layout that the program will start with. If 'enable_dynamic_layout=true' then the default layout will be the only layout available. Check the README for possible values.
-default_layout=mouse
-
-Whether to enable the talking cat for all layouts. Possible values are 'true' and 'false'.
 enable_talking=true
 
-
-Whether to enable to bumper cats for the Controller layout. Possible values are 'true' and false'.
 enable_bumpers=false
+
+fps=40
