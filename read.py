@@ -78,7 +78,7 @@ class Config:
         path = os.path.join(os.getcwd(), "images")
         self.textures = {
             "1k": self.load_1k_textures(path, "", 252),
-            "1k_tall": self.load_1k_textures(path, "_tall", 324),
+            "1k_tall": self.load_1k_textures(path, "_tall", 500),
             "2k": self.load_2k_textures(path),
             "2k_rev": self.load_rev_2k_textures(path),
             "4k": self.load_4k_textures(path),
