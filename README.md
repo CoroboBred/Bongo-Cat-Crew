@@ -1,9 +1,10 @@
 # Bongo Cat Crew
-A program that dynamically displays a different assortment of cats to match the currently playing OSU! game mode.
-OSU!standard and all OSU!Mania modes are supported. The program includes a talking cat which mimics your audio.
+An overlay program that can swap to different assortment of cats to match the currently playing OSU! game mode.
+There are 10 keyboard layouts, a mouse layout, a controller layout, and talking cat layout suitable for streams.
+OSU!standard and all OSU!Mania modes are supported.
 
 ## Installation
-Download the latest release shown on the right hand side of this page.
+Download the latest release shown on the right-hand side of this page.
 Extract the folder somewhere convenient.
 
 ## Usage
@@ -16,7 +17,7 @@ View the list of layouts and activation keys in [Layouts](#layouts).
 
 
 ### Layouts 
-The program supports 13 different layouts. You can swap to each layout by pressing the `esc` + the activation key. The each layouts discripton and its activation key is described in the table below.
+The program supports 13 different layouts. You can swap to each layout by pressing the `esc` + the activation key. Each layout's description and its activation key is described in the table below.
 
 **Layout** | **Default Activation Key** | **Cats** | **Description** |
 -----------|:----------------|:---------|:----------------|
