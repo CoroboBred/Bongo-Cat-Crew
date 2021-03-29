@@ -50,9 +50,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setFixedWidth(max_width)
 
     def update(self):
-        # when using the controller or keyboard layout, only switch layouts if
-        # `escape` is also pressed because of conflicting keys.
-        if self.curr_layout == '`' or self.curr_layout == '+' and not keyboard.is_pressed("esc"):
+        if not keyboard.is_pressed("esc"):
             return
         for key in self.layouts:
             if keyboard.is_pressed(key):

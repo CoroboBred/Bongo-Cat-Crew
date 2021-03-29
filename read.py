@@ -57,7 +57,7 @@ class Config:
             "8": [self.cats["4k"], self.cats["4k_rev"]],
             "9": [self.cats["4k"], self.cats["1k_tall"], self.cats["4k_rev"]],
             "-": [self.cats["mk"], self.cats["mc"]],
-            "+": [self.cats["kb"]]
+            "=": [self.cats["kb"]]
         }
 
         if self.enable_bumpers:
@@ -238,7 +238,7 @@ class Config:
 
     def load_key_layout(self):
 
-        file = open("layout.txt", "r")
+        file = open("input.txt", "r")
         file.readline()  # read title line.
         file.readline()  # read blank line.
 
@@ -287,6 +287,7 @@ booleans = ["true", "false"]
 layouts = {
     "mouse": '-',
     "controller": '`',
+    "keyboard": '=',
     "talk": '0',
     "1-key": '1',
     "2-key": '2',
