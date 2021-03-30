@@ -29,7 +29,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.set_cat_layout(self.curr_layout)
         self.setCentralWidget(self.stack)
-        self.setStyleSheet("background-color: green;")
+        self.setStyleSheet("background-color: blue;")
         self.setWindowTitle("Bongo cat")
         self.set_width()
 

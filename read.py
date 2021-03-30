@@ -108,15 +108,15 @@ class Config:
     def load_button_textures(path):
         path = os.path.join(path, "button_cat")
         return {
-            "base": QtGui.QPixmap(os.path.join(path, "button_cat_base.png")),
-            "l_00": QtGui.QPixmap(os.path.join(path, "button_cat_l_00.png")),
-            "l_01": QtGui.QPixmap(os.path.join(path, "button_cat_l_01.png")),
-            "l_10": QtGui.QPixmap(os.path.join(path, "button_cat_l_10.png")),
-            "l_11": QtGui.QPixmap(os.path.join(path, "button_cat_l_11.png")),
-            "r_00": QtGui.QPixmap(os.path.join(path, "button_cat_r_00.png")),
-            "r_01": QtGui.QPixmap(os.path.join(path, "button_cat_r_01.png")),
-            "r_10": QtGui.QPixmap(os.path.join(path, "button_cat_r_10.png")),
-            "r_11": QtGui.QPixmap(os.path.join(path, "button_cat_r_11.png")),
+            "base": QtGui.QPixmap(os.path.join(path, "button_cat_base.png")).scaledToWidth(325),
+            "l_00": QtGui.QPixmap(os.path.join(path, "button_cat_l_00.png")).scaledToWidth(325),
+            "l_01": QtGui.QPixmap(os.path.join(path, "button_cat_l_01.png")).scaledToWidth(325),
+            "l_10": QtGui.QPixmap(os.path.join(path, "button_cat_l_10.png")).scaledToWidth(325),
+            "l_11": QtGui.QPixmap(os.path.join(path, "button_cat_l_11.png")).scaledToWidth(325),
+            "r_00": QtGui.QPixmap(os.path.join(path, "button_cat_r_00.png")).scaledToWidth(325),
+            "r_01": QtGui.QPixmap(os.path.join(path, "button_cat_r_01.png")).scaledToWidth(325),
+            "r_10": QtGui.QPixmap(os.path.join(path, "button_cat_r_10.png")).scaledToWidth(325),
+            "r_11": QtGui.QPixmap(os.path.join(path, "button_cat_r_11.png")).scaledToWidth(325),
         }
 
     @staticmethod
