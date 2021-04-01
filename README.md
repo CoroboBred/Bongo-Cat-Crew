@@ -106,8 +106,9 @@ All of these packages can be installed using `pip3`.
 Once installed, you can run the script from the terminal with a simple `python3 main.py`.
 
 ## Caveats
-### pyaudio
+### Linux and macOS
 This program has only been tested on Windows. It may work on Linux or macOS but it has not been tested.
 
+### pyaudio
 If you are installing the program the hard way on Windows you may have some difficulty installing `pyaudio`. I was able
 to install `pyaudio` using [pipwin](https://stackoverflow.com/questions/52283840/i-cant-install-pyaudio-on-windows-how-to-solve-error-microsoft-visual-c-14).
