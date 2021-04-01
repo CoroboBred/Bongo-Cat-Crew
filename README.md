@@ -1,5 +1,5 @@
 # Bongo Cat Crew
-An overlay program that can swap to different assortment of cats to match the currently playing OSU! game mode.
+An overlay program that can swap to a different assortment of cats to match the currently playing OSU! game mode.
 There are 10 keyboard layouts, a mouse layout, a controller layout, and talking cat layout suitable for streams.
 OSU!standard and all OSU!Mania modes are supported.
 
@@ -17,7 +17,7 @@ View the list of layouts and activation keys in [Layouts](#layouts).
 
 
 ### Layouts 
-The program supports 13 different layouts. You can swap to each layout by pressing the `esc` + the activation key. Each layout's description and its activation key is described in the table below.
+The program supports 13 different layouts. You can swap to each layout by pressing the `esc` + the activation key. Each layout and its activation key is described in the table below.
 
 **Layout** | **Default Activation Key** | **Cats** | **Description** |
 -----------|:----------------|:---------|:----------------|
@@ -83,7 +83,7 @@ default_layout | The initial layout that the program will start with. This can b
 enable_dynamic_layout | Whether the Layout still stay fixed to a single layout. If set  to `false` then the default layout will be the only layout available. | `true` | `true`, `false` |
 enable_talking | Whether to enable the talking cat for all layouts. | `true` | `true`, `false`|
 enable_bumpers | Whether to enable to bumper cats for the Controller layout. | `false` | `true`, `false` |
-fps | The maximum FPS that the program will run at. Increasing this number will make some animations smoother but may increase CPU utilization.| `false` | `true`, `false` |
+fps | The maximum FPS that the program will run at. Increasing this number will make some animations smoother but may increase CPU utilization.| 40 | Positive numbers |
 
 Each field in `config.txt` can be replaced with any of the values listed under `Possible Values`.
 
