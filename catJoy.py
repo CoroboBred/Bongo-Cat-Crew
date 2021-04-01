@@ -24,13 +24,15 @@ class CatJoy(cat.Cat):
         timer.timeout.connect(self.update)
 
     def update(self):
-
         for i in range(len(self.keys)):
             self.pressed_keys[i] = keyboard.is_pressed(self.keys[i])
 
         key = ""
         for k in self.pressed_keys:
             key += str(int(k))
+        # If conflicting keys are pressed set the joystick to the neutral position.
+        if (self.pressed_keys[0] and self.pressed_keys[2]) or (self.pressed_keys[1] and self.pressed_keys[3]):
+            key = "0000"
 
         self.label.setPixmap(self.textures[key])
 
