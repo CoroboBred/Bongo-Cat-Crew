@@ -7,7 +7,9 @@ class MainWindow(QtWidgets.QMainWindow):
         super(MainWindow, self).__init__()
 
         self.layouts = config.layouts
-        self.curr_layout = config.default_layout
+
+        self.over_layout = QtWidgets.QGridLayout()
+        self.curr_layout_key = config.default_layout
         self.fps = config.fps
         self.timer = config.timer
 
@@ -27,8 +29,11 @@ class MainWindow(QtWidgets.QMainWindow):
             self.q_layouts[layout_key] = layout
             index = index + 1
 
-        self.set_cat_layout(self.curr_layout)
-        self.setCentralWidget(self.stack)
+        self.set_cat_layout(self.curr_layout_key)
+        self.over_layout.addWidget(self.stack, 0, 0)
+        self.overlay_container = QtWidgets.QWidget()
+        self.overlay_container.setLayout(self.over_layout)
+        self.setCentralWidget(self.overlay_container)
         self.setStyleSheet("background-color: blue;")
         self.setWindowTitle("Bongo cat")
         self.set_width()
@@ -57,7 +62,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.set_cat_layout(key)
 
     def set_cat_layout(self, key):
-        self.curr_layout = key
+        self.curr_layout_key = key
         self.stack.setCurrentIndex(self.layout_indices[key])
 
         layout = self.q_layouts[key]
