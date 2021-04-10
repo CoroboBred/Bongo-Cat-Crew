@@ -15,6 +15,7 @@ class Config:
     textures = {}
     keys = {}
     default_layout = '-'
+    icon = {}
     enable_dynamic_layout = True
     enable_talking = True
     enable_bumpers = False
@@ -88,6 +89,7 @@ class Config:
             "joystick": self.load_joystick_textures(path),
             "button": self.load_button_textures(path),
         }
+        self.icon = QtGui.QIcon(os.path.join(path, "icon.png"))
 
     @staticmethod
     def load_joystick_textures(path):

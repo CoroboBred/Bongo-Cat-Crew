@@ -5,7 +5,6 @@ from PyQt5 import QtWidgets, QtCore  # import PyQt5 widgets
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, config):
         super(MainWindow, self).__init__()
-
         self.layouts = config.layouts
 
         self.over_layout = QtWidgets.QGridLayout()
@@ -37,7 +36,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.overlay_container.setLayout(self.over_layout)
         self.setCentralWidget(self.overlay_container)
         self.setStyleSheet("background-color: blue;")
-        self.setWindowTitle("Bongo cat")
+        self.setWindowTitle("Bongo Cat")
+        self.setWindowIcon(config.icon)
+        self.setWindowIconText("Bongo Cat")
+
         self.set_width()
 
         if config.enable_dynamic_layout:
