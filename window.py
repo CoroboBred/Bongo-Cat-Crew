@@ -9,6 +9,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.layouts = config.layouts
 
         self.over_layout = QtWidgets.QGridLayout()
+        self.over_layout.setSpacing(0)
+        self.over_layout.setContentsMargins(0, 0, 0, 0)
         self.curr_layout_key = config.default_layout
         self.fps = config.fps
         self.timer = config.timer
