@@ -1,0 +1,29 @@
+{
+    "mouse": [
+         "z",
+         "x"
+    ],
+    "mania": [
+         "a",
+         "s",
+         "d",
+         "f",
+         "space",
+         "j",
+         "k",
+         "l",
+         ";"
+    ],
+    "controller": {
+        "down_button": "page down",
+        "right_button": "page up",
+        "up_button": "enter",
+        "left_button": "space",
+        "stick_left": "left",
+        "stick_up": "up",
+        "stick_right": "right",
+        "stick_down": "down",
+        "left_bumper": "ctrl",
+        "right_bumper": "end"
+    }
+}

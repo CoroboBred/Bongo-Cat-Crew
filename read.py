@@ -1,4 +1,5 @@
 import os
+import json
 
 from PyQt5 import QtCore, QtGui  # import PyQt5 widgets
 
@@ -220,59 +221,42 @@ class Config:
         }
 
     def load_config(self):
-        file = open("config.txt", "r")
-        file.readline()  # read title line.
+        file = open("config.json", "r")
+        data = json.load(file)
+        self.default_layout = read_layout(data["default_layout"])
 
-        file.readline()  # read blank line.
-        self.default_layout = read_layout(file.readline())
+        self.enable_dynamic_layout = read_bool(data["enable_dynamic_layout"])
 
-        file.readline()  # read blank line.
-        self.enable_dynamic_layout = read_bool(file.readline())
+        self.enable_talking = read_bool(data["enable_talking"])
 
-        file.readline()  # read blank line.
-        self.enable_talking = read_bool(file.readline())
+        self.enable_bumpers = read_bool(data["enable_bumpers"])
 
-        file.readline()  # read blank line.
-        self.enable_bumpers = read_bool(file.readline())
-
-        file.readline()  # read blank line.
-        self.fps = int(read_value(file.readline()))
+        self.fps = int(data["fps"])
+        file.close()
 
     def load_key_layout(self):
+        file = open("input.json", "r")
+        data = json.load(file)
+        mk = data["mouse"]
+        self.keys["mk"] = [mk[0], mk[1]]
 
-        file = open("input.txt", "r")
-        file.readline()  # read title line.
-        file.readline()  # read blank line.
+        mania = data["mania"]
+        self.keys["4k"] = mania[0:4]
+        self.keys["2k"] = mania[2:4]
+        self.keys["1k"] = mania[4]
+        self.keys["2k_rev"] = mania[5:7]
+        self.keys["4k_rev"] = mania[5:10]
+        self.keys["3k"] = mania[3:6]
 
-        file.readline()  # read 'Mouse Layout' title.
-        self.keys["mk"] = [read_value(file.readline()), read_value(file.readline())]
-
-        file.readline()  # read blank line.
-        file.readline()  # read 'Mania Layout' title.
-        keys = []
-        for i in range(9):
-            keys.append(read_value(file.readline()))
-
-        self.keys["4k"] = keys[0:4]
-        self.keys["2k"] = keys[2:4]
-        self.keys["1k"] = keys[4]
-        self.keys["2k_rev"] = keys[5:7]
-        self.keys["4k_rev"] = keys[5:10]
-        self.keys["3k"] = keys[3:6]
-
-        file.readline()  # read blank line.
-        file.readline()  # read 'Joystick Layout' line.
-        joystick = []
-        for i in range(10):
-            joystick.append(read_value(file.readline()))
-        self.keys["bc"] = joystick[0:4]
-        self.keys["jc"] = joystick[4:8]
-        self.keys["lb"] = joystick[8]
-        self.keys["rb"] = joystick[9]
+        controller = data["controller"]
+        self.keys["bc"] = [controller["down_button"], controller["right_button"], controller["up_button"], controller["left_button"]]
+        self.keys["jc"] = [controller["stick_left"], controller["stick_up"], controller["stick_right"], controller["stick_down"]]
+        self.keys["lb"] = controller["left_bumper"]
+        self.keys["rb"] = controller["right_bumper"]
 
         file.close()
 
-        # hardcode the keyboard layout
+        # hardcode the keyboard layout.
         self.keys['kb'] = {
             'kb_00': ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='],
             'kb_01': ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+'],
@@ -303,24 +287,13 @@ layouts = {
 }
 
 
-def read_value(line):
-    split = line.split("=")
-    if len(split) != 2:
-        raise ValueError("incorrectly formatted line in config file: '" + line + "'")
-    return split[1].strip().lower()
+def read_bool(word):
+    if word not in booleans:
+        raise ValueError("incorrect value in config file: '" + word + " not in " + "".join(booleans))
+    return word == 'true'
 
 
-def read_bool(line):
-    value = read_value(line)
-    if value not in booleans:
-        raise ValueError("incorrectly formatted line in config file: '"
-                         + line + "'" + ": '" + value + " not in " + "".join(booleans))
-    return value == 'true'
-
-
-def read_layout(line):
-    value = read_value(line)
-    if value not in layouts.keys():
-        raise ValueError("incorrectly formatted line in config file: '"
-                         + line + "'" + ": '" + value + " not in " + "".join(layouts.keys()))
-    return layouts[value]
+def read_layout(word):
+    if word not in layouts.keys():
+        raise ValueError("incorrect value in config file: '" + word + " not in " + "".join(layouts.keys()))
+    return layouts[word]
