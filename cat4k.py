@@ -1,6 +1,5 @@
 from PyQt5 import QtWidgets, QtGui, QtCore  # import PyQt5 widgets
 
-import keyboard
 import cat
 
 
@@ -30,7 +29,7 @@ class Cat4k(cat.Cat):
     def update(self):
 
         for i in range(len(self.keys)):
-            self.pressed_keys[i] = keyboard.is_pressed(self.keys[i])
+            self.pressed_keys[i] = self.is_pressed(self.keys[i])
 
         l_text = self.textures["l_" + str(int(self.pressed_keys[0])) + str(int(self.pressed_keys[1]))]
         r_text = self.textures["r_" + str(int(self.pressed_keys[2])) + str(int(self.pressed_keys[3]))]

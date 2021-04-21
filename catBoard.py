@@ -1,6 +1,5 @@
 from PyQt5 import QtWidgets, QtGui, QtCore  # import PyQt5 widgets
 
-import keyboard
 import cat
 
 
@@ -64,7 +63,7 @@ class Cat4k(cat.Cat):
         for i in range(len(self.keys[0])):
             is_pressed = False
             for row in self.keys:
-                if keyboard.is_pressed(row[i]):
+                if self.is_pressed(row[i]):
                     is_pressed = True
                     break
             self.pressed_keys[i] = is_pressed

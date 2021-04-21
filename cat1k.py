@@ -1,6 +1,5 @@
 from PyQt5 import QtWidgets, QtCore  # import PyQt5 widgets
 
-import keyboard
 import cat
 
 
@@ -24,7 +23,7 @@ class Cat1k(cat.Cat):
         timer.timeout.connect(self.update)
 
     def update(self):
-        self.label.setPixmap(self.textures[str(int(keyboard.is_pressed(self.key)))])
+        self.label.setPixmap(self.textures[str(int(self.is_pressed(self.key)))])
 
     def width(self):
         return self.w

@@ -1,6 +1,5 @@
 from PyQt5 import QtWidgets, QtCore  # import PyQt5 widgets
 
-import keyboard
 import cat
 
 
@@ -25,7 +24,7 @@ class CatJoy(cat.Cat):
 
     def update(self):
         for i in range(len(self.keys)):
-            self.pressed_keys[i] = keyboard.is_pressed(self.keys[i])
+            self.pressed_keys[i] = self.is_pressed(self.keys[i])
 
         key = ""
         for k in self.pressed_keys:
