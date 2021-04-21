@@ -1,7 +1,7 @@
 {
-  "default_layout": "talk",
+  "default_layout": "mouse",
   "enable_dynamic_layout": "true",
   "enable_talking": "true",
-  "enable_bumpers": "false",
+  "enable_bumpers": "true",
   "fps": 40
 }
