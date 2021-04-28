@@ -1,8 +1,8 @@
 {
-  "default_layout": "mouse",
+  "default_layout": "talk",
   "mouse_type": "mouse_osu",
   "enable_dynamic_layout": "true",
   "enable_talking": "true",
-  "enable_bumpers": "true",
-  "fps": 40
+  "enable_bumpers": "false",
+  "fps": 30
 }
