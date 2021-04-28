@@ -3,5 +3,5 @@
   "enable_dynamic_layout": "true",
   "enable_talking": "true",
   "enable_bumpers": "false",
-  "fps": 40
+  "fps": 30
 }

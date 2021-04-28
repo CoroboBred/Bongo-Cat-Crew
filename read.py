@@ -10,6 +10,7 @@ import catBoard
 import catJoy
 import catMouse
 import catTalk
+import catTalkDynamic
 
 
 class Config:
@@ -28,6 +29,7 @@ class Config:
         self.load_key_layout()
         self.timer = QtCore.QTimer()
 
+        print("getting cats")
         self.cats = {
             "1k": cat1k.Cat1k(self.keys["1k"], self.textures["1k"], self.timer),
             "1k_tall": cat1k.Cat1k(self.keys["1k"], self.textures["1k_tall"], self.timer),
@@ -40,15 +42,17 @@ class Config:
             "mk": cat2k.Cat2k(self.keys["mk"], self.textures["2k"], self.timer),
             "mc": catMouse.CatMouse(self.textures["mouse"], self.timer),
             "tc": catTalk.CatTalk(self.textures["talk"], self.timer),
+            "tcd": catTalkDynamic.CatTalkDynamic(self.textures["talk_dynamic"], self.timer),
             "bc": cat4k.Cat4k(self.keys["bc"], self.textures["button"], self.timer),
             "jc": catJoy.CatJoy(self.keys["jc"], self.textures["joystick"], self.timer),
             "lb": cat1k.Cat1k(self.keys["lb"], self.textures["1k"], self.timer),
             "rb": cat1k.Cat1k(self.keys["rb"], self.textures["1k"], self.timer),
             "kb": catBoard.CatBoard(self.keys["kb"], self.textures["4k"], self.textures["4k_rev"], self.timer),
         }
+        print("made cats")
 
         self.all_layouts = {
-            "0": [],
+            "0": [self.cats["tcd"]],
             "1": [self.cats["1k"]],
             "2": [self.cats["2k"]],
             "3": [self.cats["1k_l"], self.cats["1k"], self.cats["1k_r"]],
@@ -87,6 +91,7 @@ class Config:
             "4k_rev": self.load_rev_4k_textures(path),
             "mouse": self.load_mouse_textures(path),
             "talk": self.load_talking_textures(path),
+            "talk_dynamic": self.load_dynamic_talking_textures(path),
             "joystick": self.load_joystick_textures(path),
             "button": self.load_button_textures(path),
         }
@@ -120,6 +125,20 @@ class Config:
             "r_01": QtGui.QPixmap(os.path.join(path, "button_cat_r_01.png")).scaledToWidth(325),
             "r_10": QtGui.QPixmap(os.path.join(path, "button_cat_r_10.png")).scaledToWidth(325),
             "r_11": QtGui.QPixmap(os.path.join(path, "button_cat_r_11.png")).scaledToWidth(325),
+        }
+
+    @staticmethod
+    def load_dynamic_talking_textures(path):
+        path = os.path.join(path, "dynamic_talking_cat")
+
+        return {
+            #            "idle": QtGui.QPixmap(os.path.join(path, "cat_idle.png")),
+            #            "talking_0": QtGui.QPixmap(os.path.join(path, "cat_talking_0.png")),
+            "base": QtGui.QPixmap(os.path.join(path, "dynamic_talking_base.png")),
+            "talking_1": QtGui.QPixmap(os.path.join(path, "dynamic_talking_1.png")),
+            #            "talking_2": QtGui.QPixmap(os.path.join(path, "cat_talking_2.png")),
+            #            "talking_3": QtGui.QPixmap(os.path.join(path, "cat_talking_3.png")),
+            #            "talking_4": QtGui.QPixmap(os.path.join(path, "cat_talking_4.png")),
         }
 
     @staticmethod
@@ -249,8 +268,10 @@ class Config:
         self.keys["3k"] = mania[3:6]
 
         controller = data["controller"]
-        self.keys["bc"] = [controller["down_button"], controller["right_button"], controller["up_button"], controller["left_button"]]
-        self.keys["jc"] = [controller["stick_left"], controller["stick_up"], controller["stick_right"], controller["stick_down"]]
+        self.keys["bc"] = [controller["down_button"], controller["right_button"], controller["up_button"],
+                           controller["left_button"]]
+        self.keys["jc"] = [controller["stick_left"], controller["stick_up"], controller["stick_right"],
+                           controller["stick_down"]]
         self.keys["lb"] = controller["left_bumper"]
         self.keys["rb"] = controller["right_bumper"]
 
