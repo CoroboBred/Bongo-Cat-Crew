@@ -21,6 +21,7 @@ class Config:
     enable_dynamic_layout = True
     enable_talking = True
     enable_bumpers = False
+    enable_dynamic_talking = True
     mouse_type = "mouse_game"
     fps = 40
 
@@ -29,7 +30,10 @@ class Config:
         self.load_config()
         self.load_key_layout()
         self.timer = QtCore.QTimer()
-
+        if self.enable_dynamic_talking:
+            ct = catTalkDynamic.CatTalkDynamic(self.textures["talk_dynamic"], self.timer)
+        else:
+            ct = catTalk.CatTalk(self.textures["talk"], self.timer)
         cats = {
             "1k": cat1k.Cat1k(self.keys["1k"], self.textures["1k"], self.timer),
             "1k_m": cat1k.Cat1k(self.keys["1k"], self.textures["1k"], self.timer),
@@ -53,14 +57,14 @@ class Config:
             "mko": cat2k.Cat2k(self.keys["mko"], self.textures["2k"], self.timer),
             "mc": catMouse.CatMouse(self.textures["mouse"], self.timer),
             "mjg": catJoy.CatJoy(self.keys["mjg"], self.textures["joystick"], self.timer),
-            "tc": catTalk.CatTalk(self.textures["talk"], self.timer),
-            "tcd": catTalkDynamic.CatTalkDynamic(self.textures["talk_dynamic"], self.timer),
+            "tc": ct,
             "bc": cat4k.Cat4k(self.keys["bc"], self.textures["button"], self.timer),
             "jc": catJoy.CatJoy(self.keys["jc"], self.textures["joystick"], self.timer),
             "lb": cat1k.Cat1k(self.keys["lb"], self.textures["1k"], self.timer),
             "rb": cat1k.Cat1k(self.keys["rb"], self.textures["1k"], self.timer),
             "kb": catBoard.CatBoard(self.keys["kb"], self.textures["4k"], self.textures["4k_rev"], self.timer),
         }
+        print("made cats")
 
         self.all_layouts = {
             "0": [cats["tcd"]],
