@@ -64,7 +64,6 @@ class Config:
             "rb": cat1k.Cat1k(self.keys["rb"], self.textures["1k"], self.timer),
             "kb": catBoard.CatBoard(self.keys["kb"], self.textures["4k"], self.textures["4k_rev"], self.timer),
         }
-        print("made cats")
 
         self.all_layouts = {
             "0": [cats["tcd"]],
@@ -151,13 +150,13 @@ class Config:
         path = os.path.join(path, "dynamic_talking_cat")
 
         return {
-            #            "idle": QtGui.QPixmap(os.path.join(path, "cat_idle.png")),
-            #            "talking_0": QtGui.QPixmap(os.path.join(path, "cat_talking_0.png")),
+            "idle": QtGui.QPixmap(os.path.join(path, "dynamic_idle.png")),
             "base": QtGui.QPixmap(os.path.join(path, "dynamic_talking_base.png")),
+            "talking_0": QtGui.QPixmap(os.path.join(path, "dynamic_talking_0.png")),
             "talking_1": QtGui.QPixmap(os.path.join(path, "dynamic_talking_1.png")),
-            #            "talking_2": QtGui.QPixmap(os.path.join(path, "cat_talking_2.png")),
-            #            "talking_3": QtGui.QPixmap(os.path.join(path, "cat_talking_3.png")),
-            #            "talking_4": QtGui.QPixmap(os.path.join(path, "cat_talking_4.png")),
+            "talking_2": QtGui.QPixmap(os.path.join(path, "dynamic_talking_2.png")),
+            "talking_3": QtGui.QPixmap(os.path.join(path, "dynamic_talking_3.png")),
+            "talking_4": QtGui.QPixmap(os.path.join(path, "dynamic_talking_4.png")),
         }
 
     @staticmethod
