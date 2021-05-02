@@ -40,10 +40,12 @@ class CatTalkDynamic(cat.Cat):
         self.talking_textures = []
         for key, text in self.textures.items():
             if key == "base":
-                self.idle_texture = text
+                self.base_texture = text
                 self.label.setPixmap(text)
-                continue
-            self.talking_textures.append(text)
+            elif key == "idle":
+                self.idle_texture = text
+            else:
+                self.talking_textures.append(text)
 
         self.w = self.idle_texture.width()
         self.layout = QtWidgets.QHBoxLayout()
@@ -73,15 +75,14 @@ class CatTalkDynamic(cat.Cat):
         self.frame = 0
 
     def update(self):
-        #  TODO: update to get current position of person from webcam.
-
-        # offset_x, offset_y = 0, 0
-        # print("frame: ", self.frame) # 2858 for 30 sec.
         self.frame += 1
-        pix_map = self.textures["base"].copy()
+        pix_map = self.base_texture.copy()
         painter = QtGui.QPainter(pix_map)
-        painter.drawPixmap(self.offset_x, self.offset_y, self.textures["talking_1"])
-        painter.drawPixmap(0, 0, self.textures["base"])
+        if self.is_talking:
+            painter.drawPixmap(self.offset_x, self.offset_y, self.talking_textures[self.index])
+        else:
+            painter.drawPixmap(self.offset_x, self.offset_y, self.idle_texture)
+        painter.drawPixmap(0, 0, self.base_texture)
         painter.end()
         self.label.setPixmap(pix_map)
 
@@ -127,15 +128,15 @@ class MovementListener(QtCore.QObject):
         while True:
             ret, shape = self.shape()
             if not ret:
-                print("failed to get shape")
                 continue
-            print("update: ", self.up)
             self.up += 1
             center = shape[31]
             offset_x = center[0] / self.cap_width
             offset_x *= 100
+            offset_x -= 75
             offset_y = center[1] / self.cap_height
             offset_y *= 100
+            offset_y -= 50
 
             self.movement_updater.emit(offset_x, offset_y)
 
