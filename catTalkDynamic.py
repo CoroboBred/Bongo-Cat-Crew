@@ -1,5 +1,4 @@
 import os
-
 import cv2
 import dlib
 from PyQt5 import QtWidgets, QtCore, QtGui  # import PyQt5 widgets
@@ -26,6 +25,7 @@ class CatTalkDynamic(cat.Cat):
         super(CatTalkDynamic, self).__init__()
         self.textures = textures
         self.is_talking = False
+        dlib.DLIB_USE_CUDA = True
 
         self.index = 0
         self.trail = 0
@@ -136,7 +136,7 @@ class MovementListener(QtCore.QObject):
             offset_x -= 75
             offset_y = center[1] / self.cap_height
             offset_y *= 100
-            offset_y -= 50
+            offset_y -= 75
 
             self.movement_updater.emit(offset_x, offset_y)
 
