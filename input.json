@@ -1,8 +1,18 @@
 {
-    "mouse": [
-         "z",
-         "x"
-    ],
+  "mouse_game": {
+         "left_click": "left click",
+         "right_click": "right click",
+         "joystick": {
+           "stick_left": "a",
+           "stick_up": "w",
+           "stick_right": "d",
+           "stick_down": "s"
+         }
+    },
+    "mouse_osu": {
+         "left_button": "z",
+         "right_button": "x"
+    },
     "mania": [
          "a",
          "s",
@@ -23,7 +33,7 @@
         "stick_up": "up",
         "stick_right": "right",
         "stick_down": "down",
-        "left_bumper": "ctrl",
-        "right_bumper": "end"
+        "left_bumper": "left click",
+        "right_bumper": "right click"
     }
 }

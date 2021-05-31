@@ -20,6 +20,7 @@ class Config:
     enable_dynamic_layout = True
     enable_talking = True
     enable_bumpers = False
+    mouse_type = "mouse_game"
     fps = 40
 
     def __init__(self):
@@ -28,17 +29,29 @@ class Config:
         self.load_key_layout()
         self.timer = QtCore.QTimer()
 
-        self.cats = {
+        cats = {
             "1k": cat1k.Cat1k(self.keys["1k"], self.textures["1k"], self.timer),
+            "1k_m": cat1k.Cat1k(self.keys["1k"], self.textures["1k"], self.timer),
             "1k_tall": cat1k.Cat1k(self.keys["1k"], self.textures["1k_tall"], self.timer),
             "1k_l": cat1k.Cat1k(self.keys["3k"][0], self.textures["1k"], self.timer),
             "1k_r": cat1k.Cat1k(self.keys["3k"][2], self.textures["1k"], self.timer),
             "2k": cat2k.Cat2k(self.keys["2k"], self.textures["2k"], self.timer),
-            "2k_rev": cat2k.Cat2k(self.keys["2k_rev"], self.textures["2k_rev"], self.timer),
-            "4k": cat4k.Cat4k(self.keys["4k"], self.textures["4k"], self.timer),
-            "4k_rev": cat4k.Cat4k(self.keys["4k_rev"], self.textures["4k_rev"], self.timer),
-            "mk": cat2k.Cat2k(self.keys["mk"], self.textures["2k"], self.timer),
+            "2k_4": cat2k.Cat2k(self.keys["2k"], self.textures["2k"], self.timer),
+            "2k_5": cat2k.Cat2k(self.keys["2k"], self.textures["2k"], self.timer),
+            "2k_rev_4": cat2k.Cat2k(self.keys["2k_rev"], self.textures["2k_rev"], self.timer),
+            "2k_rev_5": cat2k.Cat2k(self.keys["2k_rev"], self.textures["2k_rev"], self.timer),
+            "4k_6": cat4k.Cat4k(self.keys["4k"], self.textures["4k"], self.timer),
+            "4k_7": cat4k.Cat4k(self.keys["4k"], self.textures["4k"], self.timer),
+            "4k_8": cat4k.Cat4k(self.keys["4k"], self.textures["4k"], self.timer),
+            "4k_9": cat4k.Cat4k(self.keys["4k"], self.textures["4k"], self.timer),
+            "4k_rev_6": cat4k.Cat4k(self.keys["4k_rev"], self.textures["4k_rev"], self.timer),
+            "4k_rev_7": cat4k.Cat4k(self.keys["4k_rev"], self.textures["4k_rev"], self.timer),
+            "4k_rev_8": cat4k.Cat4k(self.keys["4k_rev"], self.textures["4k_rev"], self.timer),
+            "4k_rev_9": cat4k.Cat4k(self.keys["4k_rev"], self.textures["4k_rev"], self.timer),
+            "mkg": cat2k.Cat2k(self.keys["mkg"], self.textures["2k"], self.timer),
+            "mko": cat2k.Cat2k(self.keys["mko"], self.textures["2k"], self.timer),
             "mc": catMouse.CatMouse(self.textures["mouse"], self.timer),
+            "mjg": catJoy.CatJoy(self.keys["mjg"], self.textures["joystick"], self.timer),
             "tc": catTalk.CatTalk(self.textures["talk"], self.timer),
             "bc": cat4k.Cat4k(self.keys["bc"], self.textures["button"], self.timer),
             "jc": catJoy.CatJoy(self.keys["jc"], self.textures["joystick"], self.timer),
@@ -49,27 +62,31 @@ class Config:
 
         self.all_layouts = {
             "0": [],
-            "1": [self.cats["1k"]],
-            "2": [self.cats["2k"]],
-            "3": [self.cats["1k_l"], self.cats["1k"], self.cats["1k_r"]],
-            "4": [self.cats["2k"], self.cats["2k_rev"]],
-            "5": [self.cats["2k"], self.cats["1k"], self.cats["2k_rev"]],
-            "6": [self.cats["4k"], self.cats["4k_rev"]],
-            "7": [self.cats["4k"], self.cats["1k_tall"], self.cats["4k_rev"]],
-            "8": [self.cats["4k"], self.cats["4k_rev"]],
-            "9": [self.cats["4k"], self.cats["1k_tall"], self.cats["4k_rev"]],
-            "-": [self.cats["mk"], self.cats["mc"]],
-            "=": [self.cats["kb"]]
+            "1": [cats["1k"]],
+            "2": [cats["2k"]],
+            "3": [cats["1k_l"], cats["1k_m"], cats["1k_r"]],
+            "4": [cats["2k_4"], cats["2k_rev_4"]],
+            "5": [cats["2k_5"], cats["1k"], cats["2k_rev_5"]],
+            "6": [cats["4k_6"], cats["4k_rev_6"]],
+            "7": [cats["4k_7"], cats["1k_tall"], cats["4k_rev_7"]],
+            "8": [cats["4k_8"], cats["4k_rev_8"]],
+            "9": [cats["4k_9"], cats["1k_tall"], cats["4k_rev_9"]],
+            "=": [cats["kb"]]
         }
 
+        if self.mouse_type == "mouse_osu":
+            self.all_layouts["-"] = [cats["mko"], cats["mc"]]
+        else:  # default to mouse_game type.
+            self.all_layouts["-"] = [cats["mkg"], cats["mjg"], cats["mc"]]
+
         if self.enable_bumpers:
-            self.all_layouts["`"] = [self.cats["lb"], self.cats["bc"], self.cats["rb"], self.cats["jc"]]
+            self.all_layouts["`"] = [cats["lb"], cats["bc"], cats["rb"], cats["jc"]]
         else:
-            self.all_layouts["`"] = [self.cats["bc"], self.cats["jc"]]
+            self.all_layouts["`"] = [cats["bc"], cats["jc"]]
 
         if self.enable_talking:
             for layout in self.all_layouts.values():
-                layout.append(self.cats["tc"])
+                layout.append(cats["tc"])
 
         if self.enable_dynamic_layout:
             self.layouts = self.all_layouts
@@ -96,15 +113,15 @@ class Config:
     def load_joystick_textures(path):
         path = os.path.join(path, "joystick_cat")
         return {
-            "0000": QtGui.QPixmap(os.path.join(path, "joystick_cat_idle.png")),
-            "1000": QtGui.QPixmap(os.path.join(path, "joystick_cat_left.png")),
-            "1100": QtGui.QPixmap(os.path.join(path, "joystick_cat_left_up.png")),
-            "0100": QtGui.QPixmap(os.path.join(path, "joystick_cat_up.png")),
-            "0110": QtGui.QPixmap(os.path.join(path, "joystick_cat_up_right.png")),
-            "0010": QtGui.QPixmap(os.path.join(path, "joystick_cat_right.png")),
-            "0011": QtGui.QPixmap(os.path.join(path, "joystick_cat_right_down.png")),
-            "0001": QtGui.QPixmap(os.path.join(path, "joystick_cat_down.png")),
-            "1001": QtGui.QPixmap(os.path.join(path, "joystick_cat_down_left.png")),
+            "0000": QtGui.QPixmap(os.path.join(path, "joystick_cat_idle.png")).scaledToWidth(250),
+            "1000": QtGui.QPixmap(os.path.join(path, "joystick_cat_left.png")).scaledToWidth(250),
+            "1100": QtGui.QPixmap(os.path.join(path, "joystick_cat_left_up.png")).scaledToWidth(250),
+            "0100": QtGui.QPixmap(os.path.join(path, "joystick_cat_up.png")).scaledToWidth(250),
+            "0110": QtGui.QPixmap(os.path.join(path, "joystick_cat_up_right.png")).scaledToWidth(250),
+            "0010": QtGui.QPixmap(os.path.join(path, "joystick_cat_right.png")).scaledToWidth(250),
+            "0011": QtGui.QPixmap(os.path.join(path, "joystick_cat_right_down.png")).scaledToWidth(250),
+            "0001": QtGui.QPixmap(os.path.join(path, "joystick_cat_down.png")).scaledToWidth(250),
+            "1001": QtGui.QPixmap(os.path.join(path, "joystick_cat_down_left.png")).scaledToWidth(250),
         }
 
     @staticmethod
@@ -158,11 +175,11 @@ class Config:
     def load_2k_textures(path):
         path = os.path.join(path, "2k_cat")
         return {
-            "base": QtGui.QPixmap(os.path.join(path, "2k_cat_base.png")).scaledToWidth(231),
-            "l_0": QtGui.QPixmap(os.path.join(path, "2k_cat_l_0.png")).scaledToWidth(231),
-            "l_1": QtGui.QPixmap(os.path.join(path, "2k_cat_l_1.png")).scaledToWidth(231),
-            "r_0": QtGui.QPixmap(os.path.join(path, "2k_cat_r_0.png")).scaledToWidth(231),
-            "r_1": QtGui.QPixmap(os.path.join(path, "2k_cat_r_1.png")).scaledToWidth(231),
+            "base": QtGui.QPixmap(os.path.join(path, "2k_cat_base.png")).scaledToWidth(200),
+            "l_0": QtGui.QPixmap(os.path.join(path, "2k_cat_l_0.png")).scaledToWidth(200),
+            "l_1": QtGui.QPixmap(os.path.join(path, "2k_cat_l_1.png")).scaledToWidth(200),
+            "r_0": QtGui.QPixmap(os.path.join(path, "2k_cat_r_0.png")).scaledToWidth(200),
+            "r_1": QtGui.QPixmap(os.path.join(path, "2k_cat_r_1.png")).scaledToWidth(200),
         }
 
     @staticmethod
@@ -224,12 +241,10 @@ class Config:
         file = open("config.json", "r")
         data = json.load(file)
         self.default_layout = read_layout(data["default_layout"])
-
         self.enable_dynamic_layout = read_bool(data["enable_dynamic_layout"])
-
         self.enable_talking = read_bool(data["enable_talking"])
-
         self.enable_bumpers = read_bool(data["enable_bumpers"])
+        self.mouse_type = data["mouse_type"]
 
         self.fps = int(data["fps"])
         file.close()
@@ -237,8 +252,13 @@ class Config:
     def load_key_layout(self):
         file = open("input.json", "r")
         data = json.load(file)
-        mk = data["mouse"]
-        self.keys["mk"] = [mk[0], mk[1]]
+        mg = data["mouse_game"]
+        self.keys["mkg"] = [mg["left_click"], mg["right_click"]]
+        mjg = mg["joystick"]
+        self.keys["mjg"] = [mjg["stick_left"], mjg["stick_up"], mjg["stick_right"], mjg["stick_down"]]
+
+        mo = data["mouse_osu"]
+        self.keys["mko"] = [mo["left_button"], mo["right_button"]]
 
         mania = data["mania"]
         self.keys["4k"] = mania[0:4]
