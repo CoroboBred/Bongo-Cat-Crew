@@ -1,5 +1,5 @@
 {
-    "mouse": {
+  "mouse_game": {
          "left_click": "left click",
          "right_click": "right click",
          "joystick": {
@@ -8,6 +8,10 @@
            "stick_right": "d",
            "stick_down": "s"
          }
+    },
+    "mouse_osu": {
+         "left_button": "z",
+         "right_button": "x"
     },
     "mania": [
          "a",

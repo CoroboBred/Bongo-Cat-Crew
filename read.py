@@ -20,6 +20,7 @@ class Config:
     enable_dynamic_layout = True
     enable_talking = True
     enable_bumpers = False
+    mouse_type = "mouse_game"
     fps = 40
 
     def __init__(self):
@@ -47,9 +48,10 @@ class Config:
             "4k_rev_7": cat4k.Cat4k(self.keys["4k_rev"], self.textures["4k_rev"], self.timer),
             "4k_rev_8": cat4k.Cat4k(self.keys["4k_rev"], self.textures["4k_rev"], self.timer),
             "4k_rev_9": cat4k.Cat4k(self.keys["4k_rev"], self.textures["4k_rev"], self.timer),
-            "mk": cat2k.Cat2k(self.keys["mk"], self.textures["2k"], self.timer),
+            "mkg": cat2k.Cat2k(self.keys["mkg"], self.textures["2k"], self.timer),
+            "mko": cat2k.Cat2k(self.keys["mko"], self.textures["2k"], self.timer),
             "mc": catMouse.CatMouse(self.textures["mouse"], self.timer),
-            "mj": catJoy.CatJoy(self.keys["mj"], self.textures["joystick"], self.timer),
+            "mjg": catJoy.CatJoy(self.keys["mjg"], self.textures["joystick"], self.timer),
             "tc": catTalk.CatTalk(self.textures["talk"], self.timer),
             "bc": cat4k.Cat4k(self.keys["bc"], self.textures["button"], self.timer),
             "jc": catJoy.CatJoy(self.keys["jc"], self.textures["joystick"], self.timer),
@@ -69,12 +71,16 @@ class Config:
             "7": [cats["4k_7"], cats["1k_tall"], cats["4k_rev_7"]],
             "8": [cats["4k_8"], cats["4k_rev_8"]],
             "9": [cats["4k_9"], cats["1k_tall"], cats["4k_rev_9"]],
-            "-": [cats["mk"], cats["mj"], cats["mc"]],
             "=": [cats["kb"]]
         }
 
+        if self.mouse_type == "mouse_osu":
+            self.all_layouts["-"] = [cats["mko"], cats["mc"]]
+        else:  # default to mouse_game type.
+            self.all_layouts["-"] = [cats["mkg"], cats["mjg"], cats["mc"]]
+
         if self.enable_bumpers:
-            self.all_layouts["`"] = [cats["lb"], cats["rb"], cats["bc"], cats["jc"]]
+            self.all_layouts["`"] = [cats["lb"], cats["bc"], cats["rb"], cats["jc"]]
         else:
             self.all_layouts["`"] = [cats["bc"], cats["jc"]]
 
@@ -235,12 +241,10 @@ class Config:
         file = open("config.json", "r")
         data = json.load(file)
         self.default_layout = read_layout(data["default_layout"])
-
         self.enable_dynamic_layout = read_bool(data["enable_dynamic_layout"])
-
         self.enable_talking = read_bool(data["enable_talking"])
-
         self.enable_bumpers = read_bool(data["enable_bumpers"])
+        self.mouse_type = data["mouse_type"]
 
         self.fps = int(data["fps"])
         file.close()
@@ -248,10 +252,13 @@ class Config:
     def load_key_layout(self):
         file = open("input.json", "r")
         data = json.load(file)
-        mk = data["mouse"]
-        self.keys["mk"] = [mk["left_click"], mk["right_click"]]
-        mj = mk["joystick"]
-        self.keys["mj"] = [mj["stick_left"], mj["stick_up"], mj["stick_right"], mj["stick_down"]]
+        mg = data["mouse_game"]
+        self.keys["mkg"] = [mg["left_click"], mg["right_click"]]
+        mjg = mg["joystick"]
+        self.keys["mjg"] = [mjg["stick_left"], mjg["stick_up"], mjg["stick_right"], mjg["stick_down"]]
+
+        mo = data["mouse_osu"]
+        self.keys["mko"] = [mo["left_button"], mo["right_button"]]
 
         mania = data["mania"]
         self.keys["4k"] = mania[0:4]
