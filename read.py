@@ -23,6 +23,7 @@ class Config:
     enable_bumpers = False
     enable_dynamic_talking = True
     mouse_type = "mouse_game"
+    enable_dynamic_talking = True
     fps = 40
 
     def __init__(self):
