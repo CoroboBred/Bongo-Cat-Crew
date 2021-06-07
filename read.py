@@ -67,7 +67,7 @@ class Config:
         }
 
         self.all_layouts = {
-            "0": [cats["tcd"]],
+            "0": [],
             "1": [cats["1k"]],
             "2": [cats["2k"]],
             "3": [cats["1k_l"], cats["1k_m"], cats["1k_r"]],
@@ -160,6 +160,9 @@ class Config:
             "talking_3": QtGui.QPixmap(os.path.join(path, "dynamic_talking_3.png")),
             "talking_4": QtGui.QPixmap(os.path.join(path, "dynamic_talking_4.png")),
             "talking_eyes": QtGui.QPixmap(os.path.join(path, "dynamic_talking_eyes.png")),
+            "talking_bubble_0": QtGui.QPixmap(os.path.join(path, "dynamic_talking_bubble_0.png")),
+            "talking_bubble_1": QtGui.QPixmap(os.path.join(path, "dynamic_talking_bubble_1.png")),
+            "talking_bubble_2": QtGui.QPixmap(os.path.join(path, "dynamic_talking_bubble_2.png")),
         }
 
     @staticmethod

@@ -1,4 +1,5 @@
 import os
+
 import cv2
 import dlib
 from PyQt5 import QtWidgets, QtCore, QtGui  # import PyQt5 widgets
@@ -27,7 +28,8 @@ class CatTalkDynamic(cat.Cat):
         self.is_talking = False
         dlib.DLIB_USE_CUDA = True
 
-        self.index = 0
+        self.talk_index = 0
+        self.bubble_index = 0
         self.trail = 0
         self.stale = 0
         self.offset_x = 0.0
@@ -39,6 +41,7 @@ class CatTalkDynamic(cat.Cat):
 
         self.indices = {}
         self.talking_textures = []
+        self.talking_bubble_textures = []
         for key, text in self.textures.items():
             if key == "base":
                 self.base_texture = text
@@ -49,6 +52,8 @@ class CatTalkDynamic(cat.Cat):
                 self.idle_eyes_texture = text
             elif key == "talking_eyes":
                 self.talking_eyes_texture = text
+            elif "bubble" in key:
+                self.talking_bubble_textures.append(text)
             else:
                 self.talking_textures.append(text)
 
@@ -77,14 +82,12 @@ class CatTalkDynamic(cat.Cat):
 
         timer.timeout.connect(self.update)
 
-        self.frame = 0
-
     def update(self):
-        self.frame += 1
         pix_map = self.base_texture.copy()
         painter = QtGui.QPainter(pix_map)
         if self.is_talking:
-            painter.drawPixmap(self.offset_x, self.offset_y, self.talking_textures[self.index])
+            painter.drawPixmap(self.offset_x, self.offset_y, self.talking_textures[self.talk_index])
+            painter.drawPixmap(randrange(-5, 5), randrange(-5, 5), self.talking_bubble_textures[self.bubble_index])
             painter.drawPixmap(self.offset_x + self.eyes[0], self.offset_y + self.eyes[1], self.talking_eyes_texture)
         else:
             painter.drawPixmap(self.offset_x, self.offset_y, self.idle_cat_texture)
@@ -99,7 +102,8 @@ class CatTalkDynamic(cat.Cat):
 
     def update_eyes(self, eyes):
         self.eyes = eyes
-        pass
+        # TODO have more granular eye tracking before enabling it again
+        self.eyes = [0, 0]
 
     def update_movement(self, offset):
         self.offset_x = offset[0]
@@ -118,7 +122,10 @@ class CatTalkDynamic(cat.Cat):
         self.is_talking = True
         if self.stale == 3:
             self.stale = 0
-            self.index = randrange(len(self.talking_textures))
+            self.talk_index = randrange(len(self.talking_textures))
+            self.bubble_index += 1
+            if self.bubble_index == len(self.talking_bubble_textures):
+                self.bubble_index = 0
 
         self.stale += 1
 
@@ -139,7 +146,6 @@ class MovementListener(QtCore.QObject):
         self.cap = cv2.VideoCapture(0)
         self.cap_width = self.cap.get(3)
         self.cap_height = self.cap.get(4)
-        self.up = 0
         self.kernel = np.ones((9, 9), np.uint8)
 
     def listen(self):
@@ -151,7 +157,6 @@ class MovementListener(QtCore.QObject):
             ret, face = self.face(img)
             if not ret:
                 continue
-            self.up += 1
             self.move_offset = self.movement(face)
             ret, pupils_offset = self.pupils(img, face)
             if ret:
@@ -186,8 +191,6 @@ class MovementListener(QtCore.QObject):
             return False, None
         left = self.offset_pupils(face[36:42], pupils[0])
         right = self.offset_pupils(face[42:48], pupils[1])
-        print("left: ", left, " right: ", right)
-        # TODO: Fix offset calculation.
         return True, [(left[0] + right[0]) / 2, (left[1] + right[1]) / 2]
 
     @staticmethod
@@ -196,13 +199,8 @@ class MovementListener(QtCore.QObject):
         for point in eye:
             center[0] += point[0]
             center[1] += point[1]
-        center[0] /= len(eye)
-        center[1] /= len(eye)
-        print("center: ", center)
-        print("pupil: ", pupil)
-        print("offset: ", [center[0] - pupil[0], center[1] - pupil[1]])
-
-        return [center[0] - pupil[0], center[1] - pupil[1]]
+        center = [i / len(eye) for i in center]
+        return [2 * (center[0] - pupil[0]), 2 * (center[1] - pupil[1])]
 
     def find_pupils(self, img, face):
         left = [36, 37, 38, 39, 40, 41]  # keypoint indices for left eye
@@ -217,11 +215,12 @@ class MovementListener(QtCore.QObject):
         eyes[mask] = [255, 255, 255]
         eyes_gray = cv2.cvtColor(eyes, cv2.COLOR_BGR2GRAY)
 
-        threshold = 90  # optimal threshold for getting eye pupils. TODO turn into config argument.
+        threshold = 40  # optimal threshold for getting eye pupils. TODO turn into config argument.
         _, thresh = cv2.threshold(eyes_gray, threshold, 255, cv2.THRESH_BINARY)
         thresh = cv2.erode(thresh, None, iterations=2)
         thresh = cv2.dilate(thresh, None, iterations=4)
         thresh = cv2.medianBlur(thresh, 3)
+        thresh = cv2.bitwise_not(thresh)
         mid = (face[39][0] + face[42][0]) // 2
         pupils = [[0, 0], [0, 0]]
         ret, pupils[0][0], pupils[0][1] = self.contouring(thresh[:, 0:mid], mid)

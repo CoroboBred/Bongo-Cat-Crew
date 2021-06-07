@@ -3,7 +3,7 @@ import dlib
 import numpy as np
 
 
-def shape_to_np(shape, dtype="int"):
+def shape_to_np(shape, dtype=np.int32):
     # initialize the list of (x, y)-coordinates
     coords = np.zeros((68, 2), dtype=dtype)
     # loop over the 68 facial landmarks and convert them
@@ -31,6 +31,7 @@ def contouring(thresh, mid, img, right=False):
         if right:
             cx += mid
         cv2.circle(img, (cx, cy), 4, (0, 0, 255), 2)
+        print("pupils: ", (cx, cy))
     except:
         pass
 
@@ -65,11 +66,14 @@ while (True):
         mask = np.zeros(img.shape[:2], dtype=np.uint8)
         mask = eye_on_mask(mask, left)
         mask = eye_on_mask(mask, right)
+
+        cv2.polylines(img, [np.array([shape[i] for i in left])], True, (255, 0, 0), 2)
+        cv2.polylines(img, [np.array([shape[i] for i in right])], True, (255, 0, 0), 2)
+
         mask = cv2.dilate(mask, kernel, 5)
         eyes = cv2.bitwise_and(img, img, mask=mask)
         mask = (eyes == [0, 0, 0]).all(axis=2)
         eyes[mask] = [255, 255, 255]
-        mid = (shape[42][0] + shape[39][0]) // 2
         eyes_gray = cv2.cvtColor(eyes, cv2.COLOR_BGR2GRAY)
         threshold = cv2.getTrackbarPos('threshold', 'image')
         _, thresh = cv2.threshold(eyes_gray, threshold, 255, cv2.THRESH_BINARY)
@@ -77,6 +81,7 @@ while (True):
         thresh = cv2.dilate(thresh, None, iterations=4)  # 2
         thresh = cv2.medianBlur(thresh, 3)  # 3
         thresh = cv2.bitwise_not(thresh)
+        mid = (shape[42][0] + shape[39][0]) // 2
         contouring(thresh[:, 0:mid], mid, img)
         contouring(thresh[:, mid:], mid, img, True)
         # for (x, y) in shape[36:48]:
