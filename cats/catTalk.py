@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets, QtCore  # import PyQt5 widgets
 
-import cat
+from cats import cat
 import pyaudio
 from array import array
 from sys import byteorder

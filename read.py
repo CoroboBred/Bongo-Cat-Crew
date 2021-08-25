@@ -3,14 +3,7 @@ import json
 
 from PyQt5 import QtCore, QtGui  # import PyQt5 widgets
 
-import cat1k
-import cat2k
-import cat4k
-import catBoard
-import catJoy
-import catMouse
-import catTalk
-import catTalkDynamic
+from cats import cat4k, catTalk, cat1k, catJoy, catBoard, catTalkDynamic, cat2k, catMouse
 
 
 class Config:

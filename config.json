@@ -1,6 +1,6 @@
 {
   "default_layout": "talk",
-  "mouse_type": "mouse_osu",
+  "mouse_type": "mouse_game",
   "enable_dynamic_layout": "true",
   "enable_talking": "true",
   "enable_bumpers": "false",

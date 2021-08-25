@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets, QtGui, QtCore  # import PyQt5 widgets
 
-import cat
+from cats import cat
 
 
 class Cat4k(cat.Cat):
