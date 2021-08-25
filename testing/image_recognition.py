@@ -1,3 +1,6 @@
+# This test script runs a simple window which displays the face and eyeball recognition
+# done for the talking cat. A scrollable sensitivity bar is displayed to allow users to
+# adjust the program to the optimal sensitivity for their complexion and lighting.
 import cv2
 import dlib
 import numpy as np
