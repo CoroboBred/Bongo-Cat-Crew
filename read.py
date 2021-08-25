@@ -3,13 +3,7 @@ import json
 
 from PyQt5 import QtCore, QtGui  # import PyQt5 widgets
 
-import cat1k
-import cat2k
-import cat4k
-import catBoard
-import catJoy
-import catMouse
-import catTalk
+from cats import cat4k, catTalk, cat1k, catJoy, catBoard, catTalkDynamic, cat2k, catMouse
 
 
 class Config:
@@ -20,7 +14,9 @@ class Config:
     enable_dynamic_layout = True
     enable_talking = True
     enable_bumpers = False
+    enable_dynamic_talking = True
     mouse_type = "mouse_game"
+    enable_dynamic_talking = True
     fps = 40
 
     def __init__(self):
@@ -28,7 +24,10 @@ class Config:
         self.load_config()
         self.load_key_layout()
         self.timer = QtCore.QTimer()
-
+        if self.enable_dynamic_talking:
+            ct = catTalkDynamic.CatTalkDynamic(self.textures["talk_dynamic"], self.timer)
+        else:
+            ct = catTalk.CatTalk(self.textures["talk"], self.timer)
         cats = {
             "1k": cat1k.Cat1k(self.keys["1k"], self.textures["1k"], self.timer),
             "1k_m": cat1k.Cat1k(self.keys["1k"], self.textures["1k"], self.timer),
@@ -52,7 +51,7 @@ class Config:
             "mko": cat2k.Cat2k(self.keys["mko"], self.textures["2k"], self.timer),
             "mc": catMouse.CatMouse(self.textures["mouse"], self.timer),
             "mjg": catJoy.CatJoy(self.keys["mjg"], self.textures["joystick"], self.timer),
-            "tc": catTalk.CatTalk(self.textures["talk"], self.timer),
+            "tc": ct,
             "bc": cat4k.Cat4k(self.keys["bc"], self.textures["button"], self.timer),
             "jc": catJoy.CatJoy(self.keys["jc"], self.textures["joystick"], self.timer),
             "lb": cat1k.Cat1k(self.keys["lb"], self.textures["1k"], self.timer),
@@ -104,6 +103,7 @@ class Config:
             "4k_rev": self.load_rev_4k_textures(path),
             "mouse": self.load_mouse_textures(path),
             "talk": self.load_talking_textures(path),
+            "talk_dynamic": self.load_dynamic_talking_textures(path),
             "joystick": self.load_joystick_textures(path),
             "button": self.load_button_textures(path),
         }
@@ -137,6 +137,25 @@ class Config:
             "r_01": QtGui.QPixmap(os.path.join(path, "button_cat_r_01.png")).scaledToWidth(325),
             "r_10": QtGui.QPixmap(os.path.join(path, "button_cat_r_10.png")).scaledToWidth(325),
             "r_11": QtGui.QPixmap(os.path.join(path, "button_cat_r_11.png")).scaledToWidth(325),
+        }
+
+    @staticmethod
+    def load_dynamic_talking_textures(path):
+        path = os.path.join(path, "dynamic_talking_cat")
+
+        return {
+            "idle": QtGui.QPixmap(os.path.join(path, "dynamic_idle.png")),
+            "idle_eyes": QtGui.QPixmap(os.path.join(path, "dynamic_idle_eyes.png")),
+            "base": QtGui.QPixmap(os.path.join(path, "dynamic_talking_base.png")),
+            "talking_0": QtGui.QPixmap(os.path.join(path, "dynamic_talking_0.png")),
+            "talking_1": QtGui.QPixmap(os.path.join(path, "dynamic_talking_1.png")),
+            "talking_2": QtGui.QPixmap(os.path.join(path, "dynamic_talking_2.png")),
+            "talking_3": QtGui.QPixmap(os.path.join(path, "dynamic_talking_3.png")),
+            "talking_4": QtGui.QPixmap(os.path.join(path, "dynamic_talking_4.png")),
+            "talking_eyes": QtGui.QPixmap(os.path.join(path, "dynamic_talking_eyes.png")),
+            "talking_bubble_0": QtGui.QPixmap(os.path.join(path, "dynamic_talking_bubble_0.png")),
+            "talking_bubble_1": QtGui.QPixmap(os.path.join(path, "dynamic_talking_bubble_1.png")),
+            "talking_bubble_2": QtGui.QPixmap(os.path.join(path, "dynamic_talking_bubble_2.png")),
         }
 
     @staticmethod
@@ -241,8 +260,11 @@ class Config:
         file = open("config.json", "r")
         data = json.load(file)
         self.default_layout = read_layout(data["default_layout"])
+
         self.enable_dynamic_layout = read_bool(data["enable_dynamic_layout"])
+
         self.enable_talking = read_bool(data["enable_talking"])
+
         self.enable_bumpers = read_bool(data["enable_bumpers"])
         self.mouse_type = data["mouse_type"]
 
@@ -269,8 +291,10 @@ class Config:
         self.keys["3k"] = mania[3:6]
 
         controller = data["controller"]
-        self.keys["bc"] = [controller["down_button"], controller["right_button"], controller["up_button"], controller["left_button"]]
-        self.keys["jc"] = [controller["stick_left"], controller["stick_up"], controller["stick_right"], controller["stick_down"]]
+        self.keys["bc"] = [controller["down_button"], controller["right_button"], controller["up_button"],
+                           controller["left_button"]]
+        self.keys["jc"] = [controller["stick_left"], controller["stick_up"], controller["stick_right"],
+                           controller["stick_down"]]
         self.keys["lb"] = controller["left_bumper"]
         self.keys["rb"] = controller["right_bumper"]
 
