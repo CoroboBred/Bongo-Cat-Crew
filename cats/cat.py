@@ -41,11 +41,9 @@ class Cat(QtWidgets.QWidget):
         return self.is_button_pressed(key)
 
     def is_joystick_pressed(self, key):
-        # 'first' joystick.
-        # Possible joystick actions: JOYAXISMOTION, JOYBALLMOTION, JOYBUTTONDOWN,
-        # JOYBUTTONUP, JOYHATMOTION
         pygame.event.get()  # User did something.
 
+        # 'first' joystick.
         axis = 0
         if 'second' in key:  # 'second' joystick
             axis = 3
