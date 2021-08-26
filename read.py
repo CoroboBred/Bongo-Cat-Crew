@@ -58,12 +58,12 @@ class Config:
             "lb": cat1k.Cat1k(self.keys["lb"], self.textures["1k"], self.timer),
             "rb": cat1k.Cat1k(self.keys["rb"], self.textures["1k"], self.timer),
             "kb": catBoard.CatBoard(self.keys["kb"], self.textures["4k"], self.textures["4k_rev"], self.timer),
-            "stadia_bc": cat4k.Cat4k(self.keys["stadia_bc"], self.textures["button"], self.timer),
-            "stadia_jc_1": catJoy.CatJoy(self.keys["stadia_jc_1"], self.textures["joystick"], self.timer),
-            "stadia_jc_2": catJoy.CatJoy(self.keys["stadia_jc_2"], self.textures["joystick"], self.timer),
             "stadia_lb": cat1k.Cat1k(self.keys["stadia_lb"], self.textures["1k"], self.timer),
-            "stadia_rb": cat1k.Cat1k(self.keys["stadia_rb"], self.textures["1k"], self.timer),
             "stadia_hat": cat4k.Cat4k(self.keys["stadia_hat"], self.textures["button"], self.timer),
+            "stadia_jc_1": catJoy.CatJoy(self.keys["stadia_jc_1"], self.textures["joystick_rev"], self.timer),
+            "stadia_jc_2": catJoy.CatJoy(self.keys["stadia_jc_2"], self.textures["joystick"], self.timer),
+            "stadia_bc": cat4k.Cat4k(self.keys["stadia_bc"], self.textures["button_rev"], self.timer),
+            "stadia_rb": cat1k.Cat1k(self.keys["stadia_rb"], self.textures["1k"], self.timer),
 
         }
 
@@ -92,7 +92,7 @@ class Config:
                                      cats["stadia_bc"], cats["stadia_rb"]]
         else:
             self.all_layouts["`"] = [cats["bc"], cats["jc"]]
-            self.all_layouts["+"] = [cats["stadia_hat"], cats["stadia_jc_1"], cats["stadia_jc_2"], cats["stadia_bc"]]
+            self.all_layouts["backspace"] = [cats["stadia_hat"], cats["stadia_jc_1"], cats["stadia_jc_2"], cats["stadia_bc"]]
 
         if self.enable_talking:
             for layout in self.all_layouts.values():
@@ -116,7 +116,9 @@ class Config:
             "talk": self.load_talking_textures(path),
             "talk_dynamic": self.load_dynamic_talking_textures(path),
             "joystick": self.load_joystick_textures(path),
+            "joystick_rev": self.load_rev_joystick_textures(path),
             "button": self.load_button_textures(path),
+            "button_rev": self.load_rev_button_textures(path),
         }
         self.icon = QtGui.QIcon(os.path.join(path, "icon.png"))
 
@@ -136,6 +138,30 @@ class Config:
         }
 
     @staticmethod
+    def load_rev_joystick_textures(path):
+        path = os.path.join(path, "joystick_cat")
+        return {
+            "0000": QtGui.QPixmap(os.path.join(path, "joystick_cat_idle.png")).transformed(
+                QtGui.QTransform().scale(-1, 1)).scaledToWidth(250),
+            "0010": QtGui.QPixmap(os.path.join(path, "joystick_cat_left.png")).transformed(
+                QtGui.QTransform().scale(-1, 1)).scaledToWidth(250),
+            "0110": QtGui.QPixmap(os.path.join(path, "joystick_cat_left_up.png")).transformed(
+                QtGui.QTransform().scale(-1, 1)).scaledToWidth(250),
+            "0100": QtGui.QPixmap(os.path.join(path, "joystick_cat_up.png")).transformed(
+                QtGui.QTransform().scale(-1, 1)).scaledToWidth(250),
+            "1100": QtGui.QPixmap(os.path.join(path, "joystick_cat_up_right.png")).transformed(
+                QtGui.QTransform().scale(-1, 1)).scaledToWidth(250),
+            "1000": QtGui.QPixmap(os.path.join(path, "joystick_cat_right.png")).transformed(
+                QtGui.QTransform().scale(-1, 1)).scaledToWidth(250),
+            "1001": QtGui.QPixmap(os.path.join(path, "joystick_cat_right_down.png")).transformed(
+                QtGui.QTransform().scale(-1, 1)).scaledToWidth(250),
+            "0001": QtGui.QPixmap(os.path.join(path, "joystick_cat_down.png")).transformed(
+                QtGui.QTransform().scale(-1, 1)).scaledToWidth(250),
+            "0011": QtGui.QPixmap(os.path.join(path, "joystick_cat_down_left.png")).transformed(
+                QtGui.QTransform().scale(-1, 1)).scaledToWidth(250),
+        }
+
+    @staticmethod
     def load_button_textures(path):
         path = os.path.join(path, "button_cat")
         return {
@@ -148,6 +174,30 @@ class Config:
             "r_01": QtGui.QPixmap(os.path.join(path, "button_cat_r_01.png")).scaledToWidth(325),
             "r_10": QtGui.QPixmap(os.path.join(path, "button_cat_r_10.png")).scaledToWidth(325),
             "r_11": QtGui.QPixmap(os.path.join(path, "button_cat_r_11.png")).scaledToWidth(325),
+        }
+
+    @staticmethod
+    def load_rev_button_textures(path):
+        path = os.path.join(path, "button_cat")
+        return {
+            "base": QtGui.QPixmap(os.path.join(path, "button_cat_base.png")).transformed(
+                QtGui.QTransform().scale(-1, 1)).scaledToWidth(325),
+            "l_00": QtGui.QPixmap(os.path.join(path, "button_cat_r_00.png")).transformed(
+                QtGui.QTransform().scale(-1, 1)).scaledToWidth(325),
+            "l_01": QtGui.QPixmap(os.path.join(path, "button_cat_r_10.png")).transformed(
+                QtGui.QTransform().scale(-1, 1)).scaledToWidth(325),
+            "l_10": QtGui.QPixmap(os.path.join(path, "button_cat_r_01.png")).transformed(
+                QtGui.QTransform().scale(-1, 1)).scaledToWidth(325),
+            "l_11": QtGui.QPixmap(os.path.join(path, "button_cat_r_11.png")).transformed(
+                QtGui.QTransform().scale(-1, 1)).scaledToWidth(325),
+            "r_00": QtGui.QPixmap(os.path.join(path, "button_cat_l_00.png")).transformed(
+                QtGui.QTransform().scale(-1, 1)).scaledToWidth(325),
+            "r_01": QtGui.QPixmap(os.path.join(path, "button_cat_l_10.png")).transformed(
+                QtGui.QTransform().scale(-1, 1)).scaledToWidth(325),
+            "r_10": QtGui.QPixmap(os.path.join(path, "button_cat_l_01.png")).transformed(
+                QtGui.QTransform().scale(-1, 1)).scaledToWidth(325),
+            "r_11": QtGui.QPixmap(os.path.join(path, "button_cat_l_11.png")).transformed(
+                QtGui.QTransform().scale(-1, 1)).scaledToWidth(325),
         }
 
     @staticmethod
@@ -315,8 +365,8 @@ class Config:
         self.keys["rb"] = controller["right_bumper"]
 
         # stadia / xbox controller.
-        self.keys["stadia_bc"] = ["controller button 0", "controller button 2", "controller button 3",
-                                  "controller button 1"]
+        self.keys["stadia_bc"] = ["controller button 2", "controller button 3", "controller button 1",
+                                  "controller button 0"]
         self.keys["stadia_jc_1"] = ["controller joystick first horizontal left",
                                     "controller joystick first vertical up",
                                     "controller joystick first horizontal right",
@@ -362,6 +412,7 @@ layouts = {
     "7-key": '7',
     "8-key": '8',
     "9-key": '9',
+    "generic_controller": 'backspace',
 }
 
 

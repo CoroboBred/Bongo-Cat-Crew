@@ -56,9 +56,9 @@ class Cat(QtWidgets.QWidget):
 
         value = self.controller.get_axis(axis)
         if "left" in key or "up" in key:
-            return value < -0.1
+            return value < -0.2
         else:  # right or down.
-            return value > 0.1
+            return value > 0.2
 
     def is_hat_pressed(self, key):
         x, y = self.controller.get_hat(0)
