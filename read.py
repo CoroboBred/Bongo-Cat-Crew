@@ -1,6 +1,7 @@
 import os
 import json
 
+import pygame
 from PyQt5 import QtCore, QtGui  # import PyQt5 widgets
 
 from cats import cat4k, catTalk, cat1k, catJoy, catBoard, catTalkDynamic, cat2k, catMouse
@@ -57,6 +58,13 @@ class Config:
             "lb": cat1k.Cat1k(self.keys["lb"], self.textures["1k"], self.timer),
             "rb": cat1k.Cat1k(self.keys["rb"], self.textures["1k"], self.timer),
             "kb": catBoard.CatBoard(self.keys["kb"], self.textures["4k"], self.textures["4k_rev"], self.timer),
+            "stadia_bc": cat4k.Cat4k(self.keys["stadia_bc"], self.textures["button"], self.timer),
+            "stadia_jc_1": catJoy.CatJoy(self.keys["stadia_jc_1"], self.textures["joystick"], self.timer),
+            "stadia_jc_2": catJoy.CatJoy(self.keys["stadia_jc_2"], self.textures["joystick"], self.timer),
+            "stadia_lb": cat1k.Cat1k(self.keys["stadia_lb"], self.textures["1k"], self.timer),
+            "stadia_rb": cat1k.Cat1k(self.keys["stadia_rb"], self.textures["1k"], self.timer),
+            "stadia_hat": cat4k.Cat4k(self.keys["stadia_hat"], self.textures["button"], self.timer),
+
         }
 
         self.all_layouts = {
@@ -80,8 +88,11 @@ class Config:
 
         if self.enable_bumpers:
             self.all_layouts["`"] = [cats["lb"], cats["bc"], cats["rb"], cats["jc"]]
+            self.all_layouts["+"] = [cats["stadia_lb"], cats["stadia_hat"], cats["stadia_jc_1"], cats["stadia_jc_2"],
+                                     cats["stadia_bc"], cats["stadia_rb"]]
         else:
             self.all_layouts["`"] = [cats["bc"], cats["jc"]]
+            self.all_layouts["+"] = [cats["stadia_hat"], cats["stadia_jc_1"], cats["stadia_jc_2"], cats["stadia_bc"]]
 
         if self.enable_talking:
             for layout in self.all_layouts.values():
@@ -274,14 +285,18 @@ class Config:
     def load_key_layout(self):
         file = open("input.json", "r")
         data = json.load(file)
+
+        # mouse game with WASD movemement
         mg = data["mouse_game"]
         self.keys["mkg"] = [mg["left_click"], mg["right_click"]]
         mjg = mg["joystick"]
         self.keys["mjg"] = [mjg["stick_left"], mjg["stick_up"], mjg["stick_right"], mjg["stick_down"]]
 
+        # OSU layout
         mo = data["mouse_osu"]
         self.keys["mko"] = [mo["left_button"], mo["right_button"]]
 
+        # mania layout
         mania = data["mania"]
         self.keys["4k"] = mania[0:4]
         self.keys["2k"] = mania[2:4]
@@ -290,6 +305,7 @@ class Config:
         self.keys["4k_rev"] = mania[5:10]
         self.keys["3k"] = mania[3:6]
 
+        # steam controller.
         controller = data["controller"]
         self.keys["bc"] = [controller["down_button"], controller["right_button"], controller["up_button"],
                            controller["left_button"]]
@@ -297,6 +313,24 @@ class Config:
                            controller["stick_down"]]
         self.keys["lb"] = controller["left_bumper"]
         self.keys["rb"] = controller["right_bumper"]
+
+        # stadia / xbox controller.
+        self.keys["stadia_bc"] = ["controller button 0", "controller button 2", "controller button 3",
+                                  "controller button 1"]
+        self.keys["stadia_jc_1"] = ["controller joystick first horizontal left",
+                                    "controller joystick first vertical up",
+                                    "controller joystick first horizontal right",
+                                    "controller joystick first vertical down"]
+        self.keys["stadia_jc_2"] = ["controller joystick second horizontal left",
+                                    "controller joystick second vertical up",
+                                    "controller joystick second horizontal right",
+                                    "controller joystick second vertical down"]
+        self.keys["stadia_hat"] = ["controller hat vertical down",
+                                   "controller hat horizontal left",
+                                   "controller hat vertical up",
+                                   "controller hat horizontal right"]
+        self.keys["stadia_lb"] = ["controller button 4"]
+        self.keys["stadia_rb"] = ["controller button 5"]
 
         file.close()
 
