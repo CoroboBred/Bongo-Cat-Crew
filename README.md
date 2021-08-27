@@ -22,7 +22,8 @@ The program supports 13 different layouts. You can swap to each layout by pressi
 **Layout** | **Default Activation Key** | **Cats** | **Description** |
 -----------|:----------------|:---------|:----------------|
 `mouse` | `-` | `2-key` , `mouse` | A special cat with a mouse. |
-`controller` | `` ` ``| `1-key`, `4-button`, `1-key`, `joystick` | A set of cats that represents a controller. There are two optional one key cats that represent the bumpers, a four button cat, and a joystick cat. |
+`controller` | `` ` `` | `1-key`, `4-button`, `joystick`, `1-key` | A set of cats that represents a minimal controller based on keyboard input. There is only one joystick and 4 buttons. There are two optional one key cats that represent the bumpers, a four button cat, and a joystick cat. |
+`generic_controller` | `backspace` | `1-key`, `4-button`, `joystick`, `joystick`, `4-button`, `1-key` | A set of cats that represent a full xbox, stadia, or generic controller. There are two joysticks,a 4-button for the D-pad, a 4-button for the 4 buttons commonly labelled a/b/x/y. There are two optional buttons that reprsent the bumpers. 
 `keyboard` | `=` | 3 `4-key` | A row of 4-Key cats that responds to most keyboard input. |
 `talk` | `0` | `talk` | A special talking cat that mimics audio input. |
 `1-key` | `1` | `1-key` | Just a single cat with a single key. |
