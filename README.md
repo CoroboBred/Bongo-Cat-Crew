@@ -82,8 +82,9 @@ View the table for info on each available option.
 default_layout | The initial layout that the program will start with. This can be any layout described in [Layouts](#layouts). | `mouse` | `mouse`, `controller`, `keyboard`, `talk`, `1-key`, `2-key`, `3-key`, `4-key`, `5-key`, `6-key`, `7-key`, `8-key`, `9-key` |
 enable_dynamic_layout | Whether the Layout still stay fixed to a single layout. If set  to `false` then the default layout will be the only layout available. | `true` | `true`, `false` |
 enable_talking | Whether to enable the talking cat for all layouts. | `true` | `true`, `false`|
+enable_dynamic_talking | Whether to enable the image recognication module for the talking cat to mimic your real life movement. | `false` | `true`, `false` |
 enable_bumpers | Whether to enable to bumper cats for the Controller layout. | `false` | `true`, `false` |
-fps | The maximum FPS that the program will run at. Increasing this number will make some animations smoother but may increase CPU utilization.| 40 | Positive numbers |
+fps | The maximum FPS that the program will run at. Increasing this number will make some animations smoother but may increase CPU utilization.| 30 | Positive numbers |
 
 Each field in `config.txt` can be replaced with any of the values listed under `Possible Values`.
 
@@ -98,6 +99,7 @@ Download the repo and run the program using `python3`. The list of python depend
 * pyqt5
 * pyautogui
 * pyaudio
+* pygame
 * array
 * os
 * random

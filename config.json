@@ -3,6 +3,7 @@
   "mouse_type": "mouse_game",
   "enable_dynamic_layout": "true",
   "enable_talking": "true",
+  "enable_dynamic_talking": "false",
   "enable_bumpers": "false",
-  "fps": 20
+  "fps": 30
 }

@@ -15,9 +15,8 @@ class Config:
     enable_dynamic_layout = True
     enable_talking = True
     enable_bumpers = False
-    enable_dynamic_talking = True
+    enable_dynamic_talking = False
     mouse_type = "mouse_game"
-    enable_dynamic_talking = True
     fps = 40
 
     def __init__(self):
@@ -328,6 +327,7 @@ class Config:
 
         self.enable_bumpers = read_bool(data["enable_bumpers"])
         self.mouse_type = data["mouse_type"]
+        self.enable_dynamic_talking = read_bool(data["enable_dynamic_talking"])
 
         self.fps = int(data["fps"])
         file.close()
