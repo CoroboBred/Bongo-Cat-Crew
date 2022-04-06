@@ -46,7 +46,7 @@ class Cat(QtWidgets.QWidget):
         # 'first' joystick.
         axis = 0
         if 'second' in key:  # 'second' joystick
-            axis = 3
+            axis = 2
 
         # default is left/right. Vertical is always the next axis.
         if 'vertical' in key:

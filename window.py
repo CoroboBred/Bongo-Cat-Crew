@@ -47,7 +47,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.show()
 
     def start(self):
-        self.timer.start(1000 / self.fps)
+        self.timer.start(1000 // self.fps)
 
     def set_width(self):
         max_width = 0

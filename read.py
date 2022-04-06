@@ -83,7 +83,7 @@ class Config:
 
         if self.enable_bumpers:
             self.all_layouts["`"] = [cats["lb"], cats["bc"], cats["rb"], cats["jc"]]
-            self.all_layouts["+"] = [cats["stadia_lb"], cats["stadia_hat"], cats["stadia_jc_1"], cats["stadia_jc_2"],
+            self.all_layouts["backspace"] = [cats["stadia_lb"], cats["stadia_hat"], cats["stadia_jc_1"], cats["stadia_jc_2"],
                                      cats["stadia_bc"], cats["stadia_rb"]]
         else:
             self.all_layouts["`"] = [cats["bc"], cats["jc"]]
@@ -370,13 +370,17 @@ class Config:
         # hardcode the keyboard layout.
         self.keys['kb'] = {
             'kb_00': ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='],
-            'kb_01': ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+'],
+            'kb_01': ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='],
+#            'kb_01': ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+'],
             'kb_10': ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']'],
-            'kb_11': ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}'],
+            'kb_11': ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']'],
+#            'kb_11': ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}'],
             'kb_20': ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', 'enter'],
-            'kb_21': ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"', 'enter'],
+            'kb_21': ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', 'enter'],
+#            'kb_21': ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"', 'enter'],
+            'kb_30': ['shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 'right shift'],
             'kb_31': ['shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 'right shift'],
-            'kb_30': ['shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?', 'right shift'],
+#            'kb_31': ['shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?', 'right shift'],
         }
 
 
