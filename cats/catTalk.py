@@ -6,19 +6,18 @@ from PyQt5 import QtWidgets, QtCore, QtGui  # import PyQt5 widgets
 
 from cats import cat
 import pyaudio
-from array import array
 from sys import byteorder
 from random import randrange
 import numpy as np
+import struct
+import math
 
-THRESHOLD = 200
-CHUNK_SIZE = 10000  # about .25 seconds.
+THRESHOLD = 0.006
 FORMAT = pyaudio.paInt16
-FRAME_MAX_VALUE = 2 ** 15 - 1
-NORMALIZE_MINUS_ONE_dB = 10 ** (-1.0 / 20)
-RATE = 44100
+SHORT_NORMALIZE = (1.0/32768.0)
 CHANNELS = 1
-TRIM_APPEND = RATE / 4
+RATE = 44100
+CHUNK_SIZE = 10000  # about .25 seconds.
 
 
 class CatTalk(cat.Cat):
@@ -32,12 +31,13 @@ class CatTalk(cat.Cat):
         self.bubble_index = 0
         self.trail = 0
         self.stale = 0
-        self.offset_x = 0.0
-        self.offset_y = 0.0
+        self.offset_x = 0
+        self.offset_y = 0
         self.eyes = [0, 0]
         self.label = QtWidgets.QLabel("talking_dynamic_cat")
         self.label.setAlignment(QtCore.Qt.AlignBottom | QtCore.Qt.AlignRight)
-        self.label.setSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        self.label.setSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
 
         self.indices = {}
         self.talking_textures = []
@@ -87,12 +87,17 @@ class CatTalk(cat.Cat):
         pix_map = self.base_texture.copy()
         painter = QtGui.QPainter(pix_map)
         if self.is_talking:
-            painter.drawPixmap(self.offset_x, self.offset_y, self.talking_textures[self.talk_index])
-            painter.drawPixmap(randrange(-5, 5), randrange(-5, 5), self.talking_bubble_textures[self.bubble_index])
-            painter.drawPixmap(self.offset_x + self.eyes[0], self.offset_y + self.eyes[1], self.talking_eyes_texture)
+            painter.drawPixmap(self.offset_x, self.offset_y,
+                               self.talking_textures[self.talk_index])
+            painter.drawPixmap(randrange(-5, 5), randrange(-5, 5),
+                               self.talking_bubble_textures[self.bubble_index])
+            painter.drawPixmap(
+                self.offset_x + self.eyes[0], self.offset_y + self.eyes[1], self.talking_eyes_texture)
         else:
-            painter.drawPixmap(self.offset_x, self.offset_y, self.idle_cat_texture)
-            painter.drawPixmap(self.offset_x + self.eyes[0], self.offset_y + self.eyes[1], self.idle_eyes_texture)
+            painter.drawPixmap(self.offset_x, self.offset_y,
+                               self.idle_cat_texture)
+            painter.drawPixmap(
+                self.offset_x + self.eyes[0], self.offset_y + self.eyes[1], self.idle_eyes_texture)
         painter.drawPixmap(0, 0, self.base_texture)
         painter.end()
         self.label.setPixmap(pix_map)
@@ -141,7 +146,8 @@ class MovementListener(QtCore.QObject):
 
     def __init__(self):
         super(MovementListener, self).__init__()
-        dat = os.path.join(os.getcwd(), "data", "shape_predictor_68_face_landmarks.dat")
+        dat = os.path.join(os.getcwd(), "data",
+                           "shape_predictor_68_face_landmarks.dat")
         self.predictor = dlib.shape_predictor(dat)
         self.detector = dlib.get_frontal_face_detector()
         self.cap = cv2.VideoCapture(0)
@@ -216,7 +222,8 @@ class MovementListener(QtCore.QObject):
         eyes[mask] = [255, 255, 255]
         eyes_gray = cv2.cvtColor(eyes, cv2.COLOR_BGR2GRAY)
 
-        threshold = 40  # optimal threshold for getting eye pupils. TODO turn into config argument.
+        # optimal threshold for getting eye pupils. TODO turn into config argument.
+        threshold = 40
         _, thresh = cv2.threshold(eyes_gray, threshold, 255, cv2.THRESH_BINARY)
         thresh = cv2.erode(thresh, None, iterations=2)
         thresh = cv2.dilate(thresh, None, iterations=4)
@@ -224,10 +231,12 @@ class MovementListener(QtCore.QObject):
         thresh = cv2.bitwise_not(thresh)
         mid = (face[39][0] + face[42][0]) // 2
         pupils = [[0, 0], [0, 0]]
-        ret, pupils[0][0], pupils[0][1] = self.contouring(thresh[:, 0:mid], mid)
+        ret, pupils[0][0], pupils[0][1] = self.contouring(
+            thresh[:, 0:mid], mid)
         if not ret:
             return False, None
-        ret, pupils[1][0], pupils[1][1] = self.contouring(thresh[:, mid:], mid, True)
+        ret, pupils[1][0], pupils[1][1] = self.contouring(
+            thresh[:, mid:], mid, True)
         if not ret:
             return False, None
 
@@ -235,7 +244,8 @@ class MovementListener(QtCore.QObject):
 
     @staticmethod
     def contouring(thresh, mid, right=False):
-        cnts, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+        cnts, _ = cv2.findContours(
+            thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
         try:
             cnt = max(cnts, key=cv2.contourArea)
             M = cv2.moments(cnt)
@@ -268,12 +278,12 @@ class TalkListener(QtCore.QObject):
     def listen(self):
         audio = pyaudio.PyAudio()
         stream = audio.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, output=True,
-                            frames_per_buffer=CHUNK_SIZE)
+                            frames_per_buffer=CHUNK_SIZE, input_device_index=9)
 
-        prev_chunk = array('h', [])
+        prev_chunk = b''
         while True:
             # little endian, signed short
-            data_chunk = array('h', stream.read(CHUNK_SIZE))
+            data_chunk = stream.read(CHUNK_SIZE, exception_on_overflow=False)
             if byteorder == 'big':
                 data_chunk.byteswap()
 
@@ -289,4 +299,17 @@ def is_talking(snd_data):
             av += snd_data[i]
     av /= len(snd_data)
 
-    return av > THRESHOLD
+    rms = get_rms(snd_data)
+
+    return rms > THRESHOLD
+
+
+def get_rms(data):
+    count = len(data)/2
+    format = "%dh" % (count)
+    shorts = struct.unpack(format, data)
+    sum_squares = 0.0
+    for sample in shorts:
+        n = sample * SHORT_NORMALIZE
+        sum_squares += n*n
+    return math.sqrt(sum_squares / count)
